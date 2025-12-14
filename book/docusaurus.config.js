@@ -13,14 +13,14 @@ const config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://your-username.github.io',
+  url: 'https:/AbdullahArif17/.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/Humanoid_And_Robotis_Book_Hackathon/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'your-username', // Usually your GitHub org/user name.
+  organizationName: 'AbdullahArif17', // Usually your GitHub org/user name.
   projectName: 'Humanoid_And_Robotis_Book_Hackathon', // Usually your repo name.
   trailingSlash: false,
 
@@ -45,7 +45,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/your-username/Humanoid_And_Robotis_Book_Hackathon/edit/main/book/',
+            'https://github.com/AbdullahArif17/Humanoid_And_Robotis_Book_Hackathon/edit/main/book/',
         },
         blog: false, // Optional: disable the blog plugin
         theme: {
@@ -74,7 +74,7 @@ const config = {
             label: 'Book',
           },
           {
-            href: 'https://github.com/your-username/Humanoid_And_Robotis_Book_Hackathon',
+            href: 'https://github.com/AbdullahArif17/Humanoid_And_Robotis_Book_Hackathon',
             label: 'GitHub',
             position: 'right',
           },
@@ -126,7 +126,7 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/your-username/your-repo',
+                href: 'https://github.com/AbdullahArif17/Humanoid_And_Robotis_Book_Hackathon',
               },
             ],
           },
