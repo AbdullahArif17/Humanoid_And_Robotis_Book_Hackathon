@@ -1,0 +1,7 @@
+label: 'Module 2: Gazebo & Unity for Humanoid Simulation'
+position: 2
+link:
+  type: generated-index
+  title: 'Module 2: Gazebo & Unity for Humanoid Simulation'
+  description: 'Learn about simulation environments for humanoid robots using Gazebo and Unity.'
+  slug: /module-2-simulation
