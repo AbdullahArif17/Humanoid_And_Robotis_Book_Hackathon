@@ -2,6 +2,8 @@
  * Error handling utilities for the AI-Native Book RAG Chatbot
  */
 
+import React from 'react';
+
 /**
  * Standard error class for API errors
  */
