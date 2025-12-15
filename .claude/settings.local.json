@@ -42,7 +42,11 @@
       "Bash(git commit -m \"Remove cleanup script\")",
       "Bash(git push -u origin master --force)",
       "Bash(cat docker-compose.yml)",
-      "Bash(git checkout -b clean-master)"
+      "Bash(git checkout -b clean-master)",
+      "Bash(npm run build)",
+      "Bash(npm install)",
+      "Bash(npx docusaurus build)",
+      "Bash(npx docusaurus build --skip-ship-code)"
     ]
   }
 }

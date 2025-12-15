@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelection } from '../../contexts/SelectionContext';
-import apiClient from '../../utils/api';
+import apiClient from '../../utils/api'; // Correct import path
 import './ChatInterface.css';
 
 /**
@@ -17,9 +17,9 @@ const ChatInterface = ({ apiUrl = 'http://localhost:8000' }) => {
 
   // Update the API client if the URL changes
   useEffect(() => {
-    if (apiUrl !== apiClient.apiUrl) {
-      // Create a new instance with the updated URL
-      Object.assign(apiClient, { apiUrl });
+    // Update API client with new URL if it changes
+    if (apiClient && apiClient.setBaseUrl) {
+      apiClient.setBaseUrl(apiUrl);
     }
   }, [apiUrl]);
 
