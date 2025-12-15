@@ -21,7 +21,7 @@ A comprehensive educational platform combining a Docusaurus-based book on Physic
 ## 📋 Prerequisites
 
 - **Backend**: Python 3.11+, PostgreSQL, Qdrant Cloud, OpenAI API
-- **Frontend**: Node.js 18+, npm
+- **Frontend**: Node.js 20+ (recommended), Node.js 18+ (minimum for development)
 - **Deployment**: GitHub account, Railway account (or similar)
 
 ## 🛠️ Architecture
