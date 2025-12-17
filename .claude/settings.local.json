@@ -50,7 +50,8 @@
       "Bash(dir \"D:\\giaic\\Humanoid_And_Robotis_Book_Hackathon\\book\\docs\\module-3-nvidia-isaac\" /b)",
       "Bash(dir \"D:\\giaic\\Humanoid_And_Robotis_Book_Hackathon\" /b)",
       "Bash(dir \"D:\\giaic\\Humanoid_And_Robotis_Book_Hackathon\\book\" /b)",
-      "Bash(dir \"D:\\giaic\\Humanoid_And_Robotis_Book_Hackathon\\.github\\workflows\" /b)"
+      "Bash(dir \"D:\\giaic\\Humanoid_And_Robotis_Book_Hackathon\\.github\\workflows\" /b)",
+      "Bash(dir \"D:\\giaic\\Humanoid_And_Robotis_Book_Hackathon\\docs\" /b)"
     ]
   }
 }

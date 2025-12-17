@@ -7,6 +7,7 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:  # Allow manual triggering
 
 jobs:
   deploy:
@@ -33,5 +34,6 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./book/build
-          # The next line forces the publication of the CNAME file if you use a custom domain
-          keep_files: true
+          publish_branch: main  # Deploy to main branch instead of gh-pages
+          destination_dir: docs  # Deploy to docs folder in main branch
+          keep_files: true      # Keep existing files in the docs folder
