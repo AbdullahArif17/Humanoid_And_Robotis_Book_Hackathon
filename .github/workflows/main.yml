@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Build and Push to Docs
 
 on:
   push:
@@ -9,8 +9,8 @@ permissions:
   contents: write
 
 jobs:
-  deploy:
-    name: Deploy to GitHub Pages
+  build-and-push:
+    name: Build and Push to Docs
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,10 +25,13 @@ jobs:
       - name: Build website
         run: npm run build
         working-directory: book
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./book/build
-          # The next line forces the publication of the CNAME file if you use a custom domain
-          keep_files: true
+      - name: Commit and push to docs folder
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          rm -rf docs
+          mkdir -p docs
+          cp -r book/build/* docs/
+          git add docs/
+          git commit -m "Update built site [skip ci]" || exit 0
+          git push
