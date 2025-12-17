@@ -23,7 +23,7 @@ const config = {
   organizationName: 'AbdullahArif17', // Usually your GitHub org/user name.
   projectName: 'Humanoid_And_Robotis_Book_Hackathon', // Usually your repo name.
   trailingSlash: false,
-  deploymentBranch: 'gh-pages', // The branch to deploy to
+  deploymentBranch: 'master', // The branch to deploy to
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
