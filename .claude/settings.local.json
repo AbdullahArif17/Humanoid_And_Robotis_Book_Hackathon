@@ -46,7 +46,8 @@
       "Bash(npm run build)",
       "Bash(npm install)",
       "Bash(npx docusaurus build)",
-      "Bash(npx docusaurus build --skip-ship-code)"
+      "Bash(npx docusaurus build --skip-ship-code)",
+      "Bash(dir \"D:\\giaic\\Humanoid_And_Robotis_Book_Hackathon\\book\\docs\\module-3-nvidia-isaac\" /b)"
     ]
   }
 }
