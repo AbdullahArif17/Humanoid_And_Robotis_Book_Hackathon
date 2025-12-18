@@ -33,4 +33,5 @@ USER appuser
 EXPOSE 7860
 
 # Run the application with the correct port for Hugging Face Spaces
-CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "7860"]
+# Use the app.py file as the entry point
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "7860"]

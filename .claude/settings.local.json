@@ -54,7 +54,8 @@
       "Bash(dir \"D:\\giaic\\Humanoid_And_Robotis_Book_Hackathon\\docs\" /b)",
       "Bash(del \"D:\\giaic\\Humanoid_And_Robotis_Book_Hackathon\\.github\\workflows\\deploy.yml\")",
       "Bash(dir \"D:\\\\giaic\\\\Humanoid_And_Robotis_Book_Hackathon\\\\backend\" /b)",
-      "Bash(dir \"D:\\\\giaic\\\\Humanoid_And_Robotis_Book_Hackathon\\\\backend\\\\src\" /b)"
+      "Bash(dir \"D:\\\\giaic\\\\Humanoid_And_Robotis_Book_Hackathon\\\\backend\\\\src\" /b)",
+      "Bash(findstr __init__)"
     ]
   }
 }
