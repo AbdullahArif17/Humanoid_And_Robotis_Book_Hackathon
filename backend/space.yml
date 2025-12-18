@@ -1,0 +1,16 @@
+spec:
+  python: "3.11"
+  app_port: 7860
+  env:
+    - name: "DEBUG"
+      value: "false"
+    - name: "HOST"
+      value: "0.0.0.0"
+    - name: "PORT"
+      value: "7860"
+    # Note: You'll need to set these in the Space secrets after creation
+    # - name: "OPENAI_API_KEY"
+    # - name: "QDRANT_URL"
+    # - name: "QDRANT_API_KEY"
+    # - name: "DATABASE_URL"
+    # - name: "ALLOWED_ORIGINS"  # Set this to your Vercel frontend URL
