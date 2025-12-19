@@ -5,11 +5,22 @@ This file serves as the entry point for Hugging Face Spaces deployment.
 import sys
 import os
 
-# Add the current directory to Python path
-sys.path.insert(0, os.path.abspath('.'))
+# Add the current directory and src directory to Python path
+current_dir = os.path.dirname(__file__)
+sys.path.insert(0, current_dir)
+sys.path.insert(0, os.path.join(current_dir, 'src'))
+
+# Add src to Python path for proper imports
+src_path = os.path.join(current_dir, 'src')
+if src_path not in sys.path:
+    sys.path.insert(0, src_path)
+
+print(f"Current working directory: {os.getcwd()}")
+print(f"Python path: {sys.path}")
+print(f"Files in current directory: {os.listdir(current_dir)}")
+print(f"Files in src directory: {os.listdir(src_path)}")
 
 # Check if src directory exists
-src_path = os.path.join(os.path.dirname(__file__), 'src')
 if not os.path.exists(src_path):
     raise FileNotFoundError(f"src directory not found at {src_path}")
 
@@ -22,13 +33,26 @@ import importlib.util
 
 # Load main.py as a module
 spec = importlib.util.spec_from_file_location("main_module", main_path)
+if spec is None:
+    raise ImportError(f"Could not load spec from {main_path}")
+
 main_module = importlib.util.module_from_spec(spec)
 
 # Add it to sys.modules to make it importable
 sys.modules["main_module"] = main_module
+sys.modules["src"] = main_module
 
 # Execute the module to load all definitions
-spec.loader.exec_module(main_module)
+try:
+    spec.loader.exec_module(main_module)
+except Exception as e:
+    print(f"Error executing main module: {e}")
+    import traceback
+    traceback.print_exc()
+    raise
 
 # Now get the app instance
+if not hasattr(main_module, 'app'):
+    raise AttributeError("main_module does not have 'app' attribute")
+
 app = main_module.app
