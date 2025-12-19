@@ -59,6 +59,7 @@ class ChatService:
         """
         conversation = Conversation(
             id=str(uuid.uuid4()),
+            session_id=str(uuid.uuid4()),  # Add required session_id
             user_id=user_id,
             title=title or "New Conversation",
             created_at=datetime.utcnow(),

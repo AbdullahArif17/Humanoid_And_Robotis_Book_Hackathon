@@ -59,7 +59,8 @@
       "Bash(dir D:giaicHumanoid_And_Robotis_Book_Hackathonbackendsrc)",
       "Bash(dir D:giaicHumanoid_And_Robotis_Book_Hackathonbackend)",
       "Bash(dir \"D:\\\\giaic\\\\Humanoid_And_Robotis_Book_Hackathon\\\\backend\")",
-      "Bash(dir \"D:\\\\giaic\\\\Humanoid_And_Robotis_Book_Hackathon\\\\backend\\\\src\")"
+      "Bash(dir \"D:\\\\giaic\\\\Humanoid_And_Robotis_Book_Hackathon\\\\backend\\\\src\")",
+      "Bash(dir \"D:\\\\giaic\\\\Humanoid_And_Robotis_Book_Hackathon\\\\backend\" /s)"
     ]
   }
 }
