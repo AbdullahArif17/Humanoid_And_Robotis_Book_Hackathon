@@ -153,9 +153,11 @@ class ChatService:
             # Create user query record
             user_query = UserQuery(
                 id=str(uuid.uuid4()),
+                session_id=conversation.session_id,  # Use the conversation's session_id
                 conversation_id=conversation_id,
                 query_text=query_text,
                 selected_text=selected_text,
+                query_type="full_book" if not selected_text else "selected_text",  # Set appropriate query type
                 timestamp=datetime.utcnow()
             )
             self.db_session.add(user_query)
