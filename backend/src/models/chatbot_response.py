@@ -3,7 +3,7 @@ ChatbotResponse model for the AI-Native Book RAG Chatbot application.
 """
 from sqlalchemy import Column, String, Text, Integer, Float, DateTime, JSON, ForeignKey
 from sqlalchemy.orm import relationship
-from .base import Base
+from src.models.base import Base
 
 
 class ChatbotResponse(Base):

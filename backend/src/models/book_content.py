@@ -18,7 +18,7 @@ class BookContent(Base):
     section_path = Column(String(200), nullable=False, index=True)  # e.g., "module-1-ros2/basics/nodes"
     content_type = Column(String(20), nullable=False)  # Enum: text, code, diagram, exercise, lab
     content_body = Column(Text, nullable=False)
-    metadata = Column(JSON)  # Additional content metadata (tags, difficulty, prerequisites)
+    content_metadata = Column(JSON)  # Additional content metadata (tags, difficulty, prerequisites)
     version = Column(Integer, default=1)  # Content version for change tracking
     chunk_boundary = Column(Boolean, default=False)  # Whether this represents a semantic chunk boundary
 

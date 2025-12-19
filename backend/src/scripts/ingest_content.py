@@ -13,14 +13,14 @@ from datetime import datetime
 import asyncio
 from sqlalchemy.orm import Session
 
-from ..database.database import get_db, engine
-from ..models.book_content import BookContent, ALLOWED_CONTENT_TYPES
-from ..models.module import Module
-from ..services.book_content_service import BookContentService
-from ..vector_store.qdrant_client import QdrantClientWrapper
-from ..ai.openai_client import get_openai_client
-from ..utils.logging_config import get_logger
-from ..utils.exceptions import ValidationError
+from src.database.database import get_db, engine
+from src.models.book_content import BookContent, ALLOWED_CONTENT_TYPES
+from src.models.module import Module
+from src.services.book_content_service import BookContentService
+from src.vector_store.qdrant_client import QdrantClientWrapper
+from src.ai.openai_client import get_openai_client
+from src.utils.logging_config import get_logger
+from src.utils.exceptions import ValidationError
 
 logger = get_logger(__name__)
 
@@ -139,7 +139,7 @@ class ContentIngestor:
             'section_path': section_path,
             'content_type': content_type,
             'content_body': content_body,
-            'metadata': metadata
+            'content_metadata': metadata
         }
 
     def process_directory(self, directory_path: Path) -> List[Dict[str, Any]]:
@@ -188,7 +188,7 @@ class ContentIngestor:
                 #     existing_content.id,
                 #     title=content_info['title'],
                 #     content_body=content_info['content_body'],
-                #     metadata=content_info['metadata']
+                #     metadata=content_info['content_metadata']
                 # )
                 return True
 
@@ -199,7 +199,7 @@ class ContentIngestor:
                 section_path=content_info['section_path'],
                 content_type=content_info['content_type'],
                 content_body=content_info['content_body'],
-                metadata=content_info['metadata']
+                metadata=content_info['content_metadata']
             )
 
             # Create embedding and store in vector database
@@ -211,7 +211,7 @@ class ContentIngestor:
                 section_path=content_info['section_path'],
                 content_body=content_info['content_body'],
                 embedding=embedding,
-                metadata=content_info['metadata']
+                metadata=content_info['content_metadata']
             )
 
             logger.info(f"Successfully ingested content: {content_info['section_path']}")
@@ -254,7 +254,7 @@ def main():
     Main function to run the content ingestion pipeline.
     """
     # Set up logging
-    from ..utils.logging_config import setup_logging
+    from src.utils.logging_config import setup_logging
     setup_logging(debug=True)
 
     # Get database session

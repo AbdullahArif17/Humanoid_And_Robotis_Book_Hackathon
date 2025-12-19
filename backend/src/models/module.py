@@ -3,7 +3,7 @@ Module model for the AI-Native Book RAG Chatbot application.
 """
 from sqlalchemy import Column, String, Text, Integer
 from sqlalchemy.orm import relationship
-from .base import Base
+from src.models.base import Base
 
 
 class Module(Base):

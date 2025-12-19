@@ -11,10 +11,10 @@ from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import and_, or_
 
-from ..models.book_content import BookContent, ALLOWED_CONTENT_TYPES
-from ..models.module import Module
-from ..utils.exceptions import ValidationError, DatabaseError
-from ..utils.logging_config import get_logger
+from src.models.book_content import BookContent, ALLOWED_CONTENT_TYPES
+from src.models.module import Module
+from src.utils.exceptions import ValidationError, DatabaseError
+from src.utils.logging_config import get_logger
 
 logger = get_logger(__name__)
 
@@ -92,7 +92,7 @@ class BookContentService:
             section_path=section_path,
             content_type=content_type,
             content_body=content_body,
-            metadata=metadata or {},
+            content_metadata=metadata or {},
             version=version
         )
 
@@ -252,7 +252,7 @@ class BookContentService:
             self._validate_content_body(content_body)
             updates['content_body'] = content_body
         if metadata is not None:
-            updates['metadata'] = metadata
+            updates['content_metadata'] = metadata
         if version is not None:
             updates['version'] = version
 
