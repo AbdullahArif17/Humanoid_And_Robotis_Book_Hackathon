@@ -62,7 +62,7 @@ app.add_middleware(
 )
 
 # Include API routes
-app.include_router(rag_api.router)
+app.include_router(rag_api)
 
 
 @app.get("/")
