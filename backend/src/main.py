@@ -15,6 +15,15 @@ from src.api import rag_api
 from src.database.database import engine, Base
 from src.utils.logging_config import get_logger
 
+# Import all models to ensure they're registered with SQLAlchemy Base
+from src.models.book_content import BookContent
+from src.models.conversation import Conversation
+from src.models.user_query import UserQuery
+from src.models.chatbot_response import ChatbotResponse
+from src.models.embedding import Embedding
+from src.models.module import Module
+from src.models.api_key import APIKey
+
 # Setup logging based on settings
 setup_logging(debug=settings.debug)
 
