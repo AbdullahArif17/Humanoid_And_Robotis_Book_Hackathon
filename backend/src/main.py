@@ -38,14 +38,13 @@ async def lifespan(app: FastAPI):
     """
     logger.info("Starting up AI-Native Book RAG Chatbot application")
 
-    # Small delay to ensure all models are loaded
-    import time
-    time.sleep(1)
-
     # Create database tables
     try:
-        # Ensure the database connection works
+        # Test database connection with a simple query
+        from sqlalchemy import text
         with engine.connect() as conn:
+            # Execute a simple query to test the connection
+            result = conn.execute(text("SELECT 1"))
             logger.info("Database connection established successfully")
 
         Base.metadata.create_all(bind=engine)

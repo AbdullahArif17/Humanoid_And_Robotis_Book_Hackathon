@@ -34,7 +34,7 @@ class AsyncContentIngestor:
         """
         self.db_session = db_session
         self.book_content_service = BookContentService(db_session=db_session)
-        self.qdrant_client = QdrantClientWrapper()
+        self.qdrant_client = QdrantClientWrapper()  # Will use settings by default
         self.openai_client = OpenAIClient()  # Create a new instance for the script
 
     def extract_frontmatter(self, content: str) -> tuple:

@@ -17,6 +17,10 @@ class Settings(BaseSettings):
     # OpenAI settings
     openai_api_key: str = Field(alias="OPENAI_API_KEY")  # Required field
     openai_model: str = Field(default="gpt-4-turbo", alias="OPENAI_MODEL")
+    openai_embedding_model: str = Field(default="text-embedding-ada-002", alias="OPENAI_EMBEDDING_MODEL")  # Model for embeddings
+    openai_base_url: Optional[str] = Field(default=None, alias="OPENAI_BASE_URL")  # Optional, for custom endpoints
+    openai_timeout: int = Field(default=30, alias="OPENAI_TIMEOUT")  # Request timeout in seconds
+    openai_max_retries: int = Field(default=3, alias="OPENAI_MAX_RETRIES")  # Number of retries for failed requests
 
     # Application settings
     debug: bool = Field(default=False, alias="DEBUG")  # Default to False in production

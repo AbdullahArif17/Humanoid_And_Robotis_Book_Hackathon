@@ -7,6 +7,8 @@ from typing import List, Optional, Dict, Any
 from uuid import UUID
 import logging
 
+from src.config import get_settings
+
 logger = logging.getLogger(__name__)
 
 
@@ -16,15 +18,19 @@ class QdrantClientWrapper:
     for the AI-Native Book RAG Chatbot application.
     """
 
-    def __init__(self, url: str, api_key: Optional[str] = None):
+    def __init__(self, url: Optional[str] = None, api_key: Optional[str] = None):
         """
         Initialize the Qdrant client wrapper.
 
         Args:
-            url: Qdrant server URL
-            api_key: Optional API key for authentication
+            url: Qdrant server URL (defaults to settings if not provided)
+            api_key: Optional API key for authentication (defaults to settings if not provided)
         """
-        self.client = QdrantClient(url=url, api_key=api_key)
+        settings = get_settings()
+        self.url = url or settings.qdrant_url
+        self.api_key = api_key or settings.qdrant_api_key
+
+        self.client = QdrantClient(url=self.url, api_key=self.api_key)
         self.collection_name = "book_content_embeddings"
 
         # Initialize the collection if it doesn't exist
