@@ -10,14 +10,14 @@ from datetime import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 
-from ..models.conversation import Conversation
-from ..models.user_query import UserQuery
-from ..models.chatbot_response import ChatbotResponse
-from ..models.book_content import BookContent
-from ..vector_store.qdrant_client import QdrantClientWrapper
-from ..ai.openai_client import OpenAIClient
-from ..utils.exceptions import ValidationError, DatabaseError, RAGError
-from ..utils.logging_config import get_logger
+from src.models.conversation import Conversation
+from src.models.user_query import UserQuery
+from src.models.chatbot_response import ChatbotResponse
+from src.models.book_content import BookContent
+from src.vector_store.qdrant_client import QdrantClientWrapper
+from src.ai.openai_client import OpenAIClient
+from src.utils.exceptions import ValidationError, DatabaseError, RAGError
+from src.utils.logging_config import get_logger
 
 logger = get_logger(__name__)
 

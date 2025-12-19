@@ -9,11 +9,11 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .config import settings
-from .utils.logging_config import setup_logging
-from .api import rag_api
-from .database.database import engine, Base
-from .utils.logging_config import get_logger
+from src.config import settings
+from src.utils.logging_config import setup_logging
+from src.api import rag_api
+from src.database.database import engine, Base
+from src.utils.logging_config import get_logger
 
 # Setup logging based on settings
 setup_logging(debug=settings.debug)

@@ -4,6 +4,7 @@ FROM python:3.11-slim
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+ENV PYTHONPATH=/app
 
 # Set work directory
 WORKDIR /app
@@ -34,4 +35,4 @@ EXPOSE 7860
 
 # Run the application with the correct port for Hugging Face Spaces
 # Use the app.py file as the entry point
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "7860"]
+CMD ["python", "-m", "uvicorn", "app:app", "--host", "0.0.0.0", "--port", "7860"]

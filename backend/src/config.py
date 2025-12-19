@@ -37,3 +37,8 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
+
+def get_settings():
+    """Get the application settings instance."""
+    return settings

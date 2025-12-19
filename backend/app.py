@@ -15,11 +15,6 @@ src_path = os.path.join(current_dir, 'src')
 if src_path not in sys.path:
     sys.path.insert(0, src_path)
 
-print(f"Current working directory: {os.getcwd()}")
-print(f"Python path: {sys.path}")
-print(f"Files in current directory: {os.listdir(current_dir)}")
-print(f"Files in src directory: {os.listdir(src_path)}")
-
 # Check if src directory exists
 if not os.path.exists(src_path):
     raise FileNotFoundError(f"src directory not found at {src_path}")
@@ -46,7 +41,6 @@ sys.modules["src"] = main_module
 try:
     spec.loader.exec_module(main_module)
 except Exception as e:
-    print(f"Error executing main module: {e}")
     import traceback
     traceback.print_exc()
     raise

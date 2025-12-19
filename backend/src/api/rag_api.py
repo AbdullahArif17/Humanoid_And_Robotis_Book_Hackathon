@@ -5,11 +5,11 @@ Provides only the required endpoints for deployment.
 from typing import Optional
 from fastapi import APIRouter, HTTPException, Depends
 
-from ..database.database import get_db
-from ..services.chat_service import ChatService
-from ..vector_store.qdrant_client import QdrantClientWrapper
-from ..ai.openai_client import get_openai_client
-from ..utils.logging_config import get_logger
+from src.database.database import get_db
+from src.services.chat_service import ChatService
+from src.vector_store.qdrant_client import QdrantClientWrapper
+from src.ai.openai_client import get_openai_client
+from src.utils.logging_config import get_logger
 
 logger = get_logger(__name__)
 router = APIRouter(prefix="/api", tags=["rag"])
