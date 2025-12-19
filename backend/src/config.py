@@ -8,7 +8,7 @@ from typing import Optional
 
 class Settings(BaseSettings):
     # Database settings
-    database_url: str = Field(default="sqlite:////tmp/book_chatbot.db", alias="DATABASE_URL")
+    database_url: str = Field(default="postgresql://user:password@localhost/dbname", alias="DATABASE_URL")
 
     # Qdrant settings
     qdrant_url: Optional[str] = Field(default="https://your-qdrant-cluster.qdrant.tech", alias="QDRANT_URL")

@@ -38,12 +38,22 @@ async def lifespan(app: FastAPI):
     """
     logger.info("Starting up AI-Native Book RAG Chatbot application")
 
+    # Small delay to ensure all models are loaded
+    import time
+    time.sleep(1)
+
     # Create database tables
     try:
+        # Ensure the database connection works
+        with engine.connect() as conn:
+            logger.info("Database connection established successfully")
+
         Base.metadata.create_all(bind=engine)
         logger.info("Database tables created successfully")
     except Exception as e:
         logger.error(f"Error creating database tables: {str(e)}")
+        import traceback
+        logger.error(f"Full traceback: {traceback.format_exc()}")
         raise
 
     yield
