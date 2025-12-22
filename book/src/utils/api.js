@@ -5,7 +5,7 @@
 
 import { handleApiError, validateConversationId, validateContentId, validateQueryParams, validateInput, logError } from './errorHandler';
 
-const DEFAULT_API_URL = 'http://localhost:8000';
+const DEFAULT_API_URL = 'https://abdullah017-humanoid-and-robotis-book.hf.space';
 
 class ApiClient {
   constructor(apiUrl = DEFAULT_API_URL) {

@@ -1,6 +1,7 @@
 """
 UserQuery model for the AI-Native Book RAG Chatbot application.
 """
+from datetime import datetime
 from sqlalchemy import Column, String, Text, Integer, DateTime, JSON, ForeignKey
 from sqlalchemy.orm import relationship
 from src.models.base import Base
@@ -20,6 +21,7 @@ class UserQuery(Base):
     conversation_id = Column(String(36), ForeignKey("conversations.id"), nullable=True)  # Link to conversation
     selected_text = Column(Text)  # Text selected by user for targeted queries (optional)
     query_context = Column(JSON)  # Additional context for the query
+    timestamp = Column(DateTime, default=datetime.utcnow)  # Creation timestamp
     processed_at = Column(DateTime)  # Processing completion timestamp (optional)
 
     # Relationships

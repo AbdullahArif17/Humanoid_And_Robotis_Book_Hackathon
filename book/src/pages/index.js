@@ -72,7 +72,7 @@ export default function Home() {
             <h2>AI-Powered Chatbot</h2>
             <p>Ask questions about the book content using our AI-powered chatbot with Retrieval-Augmented Generation (RAG).</p>
             <div style={{ height: '500px', border: '1px solid #ccc', borderRadius: '8px', overflow: 'hidden' }}>
-              <ChatInterface apiUrl="http://localhost:8000" />
+              <ChatInterface apiUrl="https://abdullah017-humanoid-and-robotis-book.hf.space" />
             </div>
           </div>
         </section>

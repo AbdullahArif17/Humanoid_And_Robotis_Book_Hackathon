@@ -7,7 +7,7 @@ import './ChatInterface.css';
  * ChatInterface component for the AI-Native Book RAG Chatbot
  * Provides an interactive chat interface that connects to the backend API
  */
-const ChatInterface = ({ apiUrl = 'http://localhost:8000' }) => {
+const ChatInterface = ({ apiUrl = 'https://abdullah017-humanoid-and-robotis-book.hf.space' }) => {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);

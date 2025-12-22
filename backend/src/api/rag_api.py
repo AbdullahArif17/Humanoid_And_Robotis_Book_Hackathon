@@ -4,12 +4,16 @@ Provides only the required endpoints for deployment.
 """
 from typing import Optional
 from fastapi import APIRouter, HTTPException, Depends
-
 from src.database.database import get_db
 from src.services.chat_service import ChatService
 from src.vector_store.qdrant_client import QdrantClientWrapper
 from src.ai.openai_client import get_openai_client
 from src.utils.logging_config import get_logger
+
+
+class CreateConversationRequest(BaseModel):
+    user_id: Optional[str] = None
+    title: Optional[str] = None
 
 logger = get_logger(__name__)
 router = APIRouter(prefix="/api", tags=["rag"])
@@ -142,23 +146,21 @@ async def health_check():
 
 @router.post("/v1/chat/conversations")
 async def create_conversation_endpoint(
-    user_id: Optional[str] = None,
-    title: Optional[str] = None,
+    request: CreateConversationRequest,
     service: ChatService = Depends(get_chat_service)
 ):
     """
     Create a new conversation.
 
     Args:
-        user_id: Optional user identifier
-        title: Optional conversation title
+        request: Request body with user_id and title
         service: ChatService instance
 
     Returns:
         Created conversation
     """
     try:
-        conversation = service.create_conversation(user_id=user_id, title=title)
+        conversation = service.create_conversation(user_id=request.user_id, title=request.title)
         return {
             "id": conversation.id,
             "session_id": conversation.session_id,
@@ -333,4 +335,44 @@ async def delete_conversation_endpoint(
         return {"success": True, "message": "Conversation deleted successfully"}
     except Exception as e:
         logger.error(f"Error deleting conversation: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+class ProcessQueryRequest(BaseModel):
+    query_text: str
+    selected_text: Optional[str] = None
+    context_window: Optional[int] = 5
+
+
+@router.post("/v1/chat/conversations/{conversation_id}/query")
+async def process_query_endpoint(
+    conversation_id: str,
+    request: ProcessQueryRequest,
+    service: ChatService = Depends(get_chat_service)
+):
+    """
+    Process a query in a conversation.
+
+    Args:
+        conversation_id: Unique identifier of the conversation
+        request: Query request with query text and optional selected text
+        service: ChatService instance
+
+    Returns:
+        AI response with sources
+    """
+    try:
+        response = service.process_query(
+            conversation_id=conversation_id,
+            query_text=request.query_text,
+            selected_text=request.selected_text,
+            context_window=request.context_window
+        )
+
+        return {
+            "response": response.response_text,
+            "sources": response.sources
+        }
+    except Exception as e:
+        logger.error(f"Error processing query: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))

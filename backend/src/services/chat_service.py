@@ -193,7 +193,7 @@ class ChatService:
             # Create chatbot response record
             chatbot_response = ChatbotResponse(
                 id=str(uuid.uuid4()),
-                user_query_id=user_query.id,
+                query_id=user_query.id,
                 response_text=ai_response_text,
                 sources=[{
                     'title': chunk.get('title'),
@@ -231,7 +231,7 @@ class ChatService:
         try:
             # Join UserQuery and ChatbotResponse tables to get the full chat history
             history = self.db_session.query(UserQuery, ChatbotResponse).outerjoin(
-                ChatbotResponse, UserQuery.id == ChatbotResponse.user_query_id
+                ChatbotResponse, UserQuery.id == ChatbotResponse.query_id
             ).filter(
                 UserQuery.conversation_id == conversation_id
             ).order_by(UserQuery.timestamp.asc()).limit(limit).all()
@@ -311,7 +311,7 @@ class ChatService:
             # Delete associated user queries and chatbot responses
             # Due to foreign key constraints, we need to delete child records first
             self.db_session.query(ChatbotResponse).filter(
-                ChatbotResponse.user_query_id.in_(
+                ChatbotResponse.query_id.in_(
                     self.db_session.query(UserQuery.id).filter(
                         UserQuery.conversation_id == conversation_id
                     )
