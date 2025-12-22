@@ -17,11 +17,13 @@ class UserQuery(Base):
     user_id = Column(String(36), nullable=True, index=True)  # User identifier (null for anonymous users)
     query_text = Column(Text, nullable=False)
     query_type = Column(String(20), nullable=False)  # Enum: full_book, selected_text
+    conversation_id = Column(String(36), ForeignKey("conversations.id"), nullable=True)  # Link to conversation
     selected_text = Column(Text)  # Text selected by user for targeted queries (optional)
     query_context = Column(JSON)  # Additional context for the query
     processed_at = Column(DateTime)  # Processing completion timestamp (optional)
 
     # Relationships
+    conversation = relationship("Conversation", back_populates="user_queries")
     chatbot_responses = relationship("ChatbotResponse", back_populates="user_query")
 
 

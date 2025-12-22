@@ -20,4 +20,4 @@ class Conversation(Base):
     conversation_metadata = Column(JSON)  # Additional conversation metadata
 
     # Relationships
-    # Note: The relationship to UserQuery is through the session_id in UserQuery
+    user_queries = relationship("UserQuery", back_populates="conversation")
