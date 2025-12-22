@@ -4,7 +4,20 @@ Logging configuration for the AI-Native Book RAG Chatbot application.
 import logging
 import sys
 from datetime import datetime
-from pythonjsonlogger import jsonlogger
+
+# Try to import pythonjsonlogger, fallback to regular logging if not available
+try:
+    from pythonjsonlogger import jsonlogger
+except ImportError:
+    # If pythonjsonlogger is not available, define a dummy class
+    class jsonlogger:
+        class JsonFormatter:
+            def __init__(self, *args, **kwargs):
+                # Fall back to regular formatter if jsonlogger not available
+                self.fallback_formatter = logging.Formatter(*args)
+
+            def format(self, record):
+                return self.fallback_formatter.format(record)
 
 
 def setup_logging(debug: bool = False):
