@@ -4,6 +4,7 @@ Provides only the required endpoints for deployment.
 """
 from typing import Optional
 from fastapi import APIRouter, HTTPException, Depends
+from pydantic import BaseModel
 from src.database.database import get_db
 from src.services.chat_service import ChatService
 from src.vector_store.qdrant_client import QdrantClientWrapper
