@@ -53,6 +53,9 @@ async def lifespan(app: FastAPI):
         logger.error(f"Error creating database tables: {str(e)}")
         import traceback
         logger.error(f"Full traceback: {traceback.format_exc()}")
+        # Provide more specific guidance for database connection issues
+        logger.error("DATABASE CONNECTION FAILED - Please check your DATABASE_URL configuration")
+        logger.error("For Neon Serverless PostgreSQL, ensure your DATABASE_URL is properly set")
         raise
 
     yield
