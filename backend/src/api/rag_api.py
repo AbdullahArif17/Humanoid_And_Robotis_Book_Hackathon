@@ -138,3 +138,199 @@ async def health_check():
         "status": "healthy",
         "service": "AI-Native Book RAG Chatbot API"
     }
+
+
+@router.post("/v1/chat/conversations")
+async def create_conversation_endpoint(
+    user_id: Optional[str] = None,
+    title: Optional[str] = None,
+    service: ChatService = Depends(get_chat_service)
+):
+    """
+    Create a new conversation.
+
+    Args:
+        user_id: Optional user identifier
+        title: Optional conversation title
+        service: ChatService instance
+
+    Returns:
+        Created conversation
+    """
+    try:
+        conversation = service.create_conversation(user_id=user_id, title=title)
+        return {
+            "id": conversation.id,
+            "session_id": conversation.session_id,
+            "user_id": conversation.user_id,
+            "title": conversation.title,
+            "created_at": conversation.created_at,
+            "updated_at": conversation.updated_at
+        }
+    except Exception as e:
+        logger.error(f"Error creating conversation: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/v1/chat/conversations/{conversation_id}")
+async def get_conversation_endpoint(
+    conversation_id: str,
+    service: ChatService = Depends(get_chat_service)
+):
+    """
+    Get a specific conversation.
+
+    Args:
+        conversation_id: Unique identifier of the conversation
+        service: ChatService instance
+
+    Returns:
+        Conversation details
+    """
+    try:
+        conversation = service.get_conversation(conversation_id)
+        if not conversation:
+            raise HTTPException(status_code=404, detail="Conversation not found")
+
+        return {
+            "id": conversation.id,
+            "session_id": conversation.session_id,
+            "user_id": conversation.user_id,
+            "title": conversation.title,
+            "is_active": conversation.is_active,
+            "created_at": conversation.created_at,
+            "updated_at": conversation.updated_at,
+            "conversation_metadata": conversation.conversation_metadata
+        }
+    except Exception as e:
+        logger.error(f"Error retrieving conversation: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/v1/chat/conversations")
+async def get_conversations_endpoint(
+    user_id: Optional[str] = None,
+    skip: int = 0,
+    limit: int = 20,
+    service: ChatService = Depends(get_chat_service)
+):
+    """
+    Get conversations for a user.
+
+    Args:
+        user_id: User identifier
+        skip: Number of records to skip
+        limit: Maximum number of records to return
+        service: ChatService instance
+
+    Returns:
+        List of conversations
+    """
+    try:
+        if user_id:
+            conversations = service.get_conversations_by_user(user_id, skip, limit)
+        else:
+            # If no user_id provided, you might want to implement a different strategy
+            # For now, we'll return an empty list or could implement a general query
+            conversations = []
+
+        return {
+            "conversations": [
+                {
+                    "id": conv.id,
+                    "session_id": conv.session_id,
+                    "user_id": conv.user_id,
+                    "title": conv.title,
+                    "is_active": conv.is_active,
+                    "created_at": conv.created_at,
+                    "updated_at": conv.updated_at
+                } for conv in conversations
+            ],
+            "total": len(conversations)
+        }
+    except Exception as e:
+        logger.error(f"Error retrieving conversations: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/v1/chat/conversations/{conversation_id}/history")
+async def get_conversation_history_endpoint(
+    conversation_id: str,
+    limit: int = 50,
+    service: ChatService = Depends(get_chat_service)
+):
+    """
+    Get chat history for a conversation.
+
+    Args:
+        conversation_id: Unique identifier of the conversation
+        limit: Maximum number of messages to return
+        service: ChatService instance
+
+    Returns:
+        Chat history
+    """
+    try:
+        history = service.get_chat_history(conversation_id, limit)
+        return {
+            "conversation_id": conversation_id,
+            "history": history,
+            "total_messages": len(history)
+        }
+    except Exception as e:
+        logger.error(f"Error retrieving chat history: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.put("/v1/chat/conversations/{conversation_id}/title")
+async def update_conversation_title_endpoint(
+    conversation_id: str,
+    title: str,
+    service: ChatService = Depends(get_chat_service)
+):
+    """
+    Update conversation title.
+
+    Args:
+        conversation_id: Unique identifier of the conversation
+        title: New title for the conversation
+        service: ChatService instance
+
+    Returns:
+        Update status
+    """
+    try:
+        success = service.update_conversation_title(conversation_id, title)
+        if not success:
+            raise HTTPException(status_code=404, detail="Conversation not found")
+
+        return {"success": True, "message": "Conversation title updated successfully"}
+    except Exception as e:
+        logger.error(f"Error updating conversation title: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.delete("/v1/chat/conversations/{conversation_id}")
+async def delete_conversation_endpoint(
+    conversation_id: str,
+    service: ChatService = Depends(get_chat_service)
+):
+    """
+    Delete a conversation.
+
+    Args:
+        conversation_id: Unique identifier of the conversation
+        service: ChatService instance
+
+    Returns:
+        Deletion status
+    """
+    try:
+        success = service.delete_conversation(conversation_id)
+        if not success:
+            raise HTTPException(status_code=404, detail="Conversation not found")
+
+        return {"success": True, "message": "Conversation deleted successfully"}
+    except Exception as e:
+        logger.error(f"Error deleting conversation: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
