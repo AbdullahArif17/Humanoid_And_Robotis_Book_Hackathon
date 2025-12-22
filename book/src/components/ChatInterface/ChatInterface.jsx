@@ -83,10 +83,10 @@ const ChatInterface = ({ apiUrl = 'https://abdullah017-humanoid-and-robotis-book
 
       // Add AI response to messages
       const aiMessage = {
-        id: data.id,
-        text: data.response_text,
+        id: Date.now(), // Using Date.now() since the backend doesn't return an ID for responses
+        text: data.response, // Changed from response_text to response to match backend
         sender: 'ai',
-        timestamp: data.timestamp,
+        timestamp: new Date().toISOString(), // Using current time since backend doesn't return timestamp for responses
         sources: data.sources || []
       };
 
