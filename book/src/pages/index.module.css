@@ -1,6 +1,5 @@
 /**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
+ * Premium CSS for Homepage - follows design system
  */
 
 .heroBanner {
@@ -8,11 +7,12 @@
   text-align: center;
   position: relative;
   overflow: hidden;
+  background: linear-gradient(135deg, var(--neutral-50) 0%, var(--neutral-100) 100%);
 }
 
 @media screen and (max-width: 996px) {
   .heroBanner {
-    padding: 2rem;
+    padding: 2rem 1rem;
   }
 }
 
@@ -20,28 +20,213 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
-.modulesSection {
-  padding: 4rem 0;
-  background-color: #f9f9f9;
+/* Premium feature card styling */
+.feature-card {
+  background: white;
+  border: 1px solid var(--neutral-200);
+  border-radius: 12px;
+  padding: 1.5rem;
+  height: 100%;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.modulesSection h2 {
-  text-align: center;
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border-color: var(--primary-500);
+}
+
+.feature-card h3 {
+  color: var(--neutral-900);
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.feature-card p {
+  color: var(--neutral-600);
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.feature-link {
+  color: var(--primary-500);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.feature-link:hover {
+  color: var(--primary-600);
+  text-decoration: underline;
+}
+
+/* Premium hero section styling */
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--neutral-900);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: var(--neutral-600);
+  margin-bottom: 0;
+  font-weight: 400;
+}
+
+html[data-theme='dark'] .hero-title {
+  color: var(--neutral-100);
+}
+
+html[data-theme='dark'] .hero-subtitle {
+  color: var(--neutral-400);
+}
+
+/* Premium button styling */
+.button--lg {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.button--primary {
+  background-color: var(--primary-500);
+  border-color: var(--primary-500);
+  color: white;
+}
+
+.button--primary:hover {
+  background-color: var(--primary-600);
+  border-color: var(--primary-600);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+.button--secondary {
+  background-color: transparent;
+  border: 1px solid var(--neutral-300);
+  color: var(--primary-500);
+}
+
+.button--secondary:hover {
+  background-color: var(--neutral-100);
+  border-color: var(--neutral-400);
+  color: var(--primary-600);
+}
+
+html[data-theme='dark'] .button--secondary {
+  border-color: var(--neutral-600);
+  color: var(--primary-300);
+}
+
+html[data-theme='dark'] .button--secondary:hover {
+  background-color: var(--neutral-800);
+  border-color: var(--neutral-500);
+  color: var(--primary-200);
+}
+
+/* Premium section styling */
+.padding-top--xl {
+  padding-top: 4rem;
+}
+
+.padding-bottom--xl {
+  padding-bottom: 4rem;
+}
+
+.padding-top--lg {
+  padding-top: 3rem;
+}
+
+.padding-bottom--lg {
+  padding-bottom: 3rem;
+}
+
+.margin-top--lg {
+  margin-top: 2rem;
+}
+
+.margin-bottom--lg {
   margin-bottom: 2rem;
 }
 
-.chatSection {
-  padding: 2rem 0;
+.margin-left--md {
+  margin-left: 1rem;
 }
 
-.chatSection h2 {
+.text--center {
+  text-align: center;
+}
+
+/* Premium typography */
+h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--neutral-900);
   text-align: center;
   margin-bottom: 1rem;
 }
 
-.chatSection p {
-  text-align: center;
-  margin-bottom: 2rem;
+html[data-theme='dark'] h2 {
+  color: var(--neutral-100);
+}
+
+/* Responsive adjustments */
+@media (max-width: 996px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .padding-top--xl,
+  .padding-bottom--xl {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .col--8 {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .col--offset-2 {
+    margin-left: 0;
+  }
+
+  .buttons {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .button--lg {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+
+  .col {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+
+  .feature-card {
+    margin-bottom: 1rem;
+  }
 }
