@@ -273,6 +273,271 @@ li {
   .main-wrapper {
     padding-top: var(--spacing-4);
   }
+
+  /* Mobile menu improvements */
+  .navbar__items {
+    flex-wrap: wrap;
+  }
+
+  .navbar-sidebar__brand {
+    padding: var(--spacing-4);
+  }
+
+  .menu__list-item {
+    margin: 0;
+  }
+
+  .menu__link {
+    padding: var(--spacing-2) var(--spacing-3);
+    font-size: 0.9rem;
+  }
+
+  /* Mobile card improvements */
+  .feature-card {
+    margin-bottom: var(--spacing-4);
+    padding: var(--spacing-4);
+  }
+
+  /* Mobile typography adjustments */
+  h1 {
+    font-size: 1.75rem;
+    line-height: 1.3;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+  }
+
+  /* Mobile chat container adjustments */
+  .chat-container {
+    width: calc(100vw - 32px);
+    height: 400px;
+    bottom: var(--spacing-4);
+    right: var(--spacing-4);
+    border-radius: 12px;
+  }
+
+  .chat-trigger-button {
+    bottom: var(--spacing-4);
+    right: var(--spacing-4);
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+  }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media (max-width: 600px) {
+  .container {
+    padding: 0 var(--spacing-3);
+  }
+
+  .hero-title {
+    font-size: 1.75rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .button--lg {
+    width: 100%;
+    padding: var(--spacing-3) var(--spacing-4);
+    font-size: 1rem;
+  }
+
+  .buttons {
+    flex-direction: column;
+    gap: var(--spacing-3);
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    gap: var(--spacing-3);
+    align-items: center;
+  }
+
+  .margin-left--md {
+    margin-left: 0;
+  }
+
+  .col {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-bottom: var(--spacing-4);
+  }
+
+  .feature-card {
+    margin-bottom: var(--spacing-4);
+  }
+
+  /* Mobile navigation improvements */
+  .navbar {
+    padding: var(--spacing-3) var(--spacing-4);
+  }
+
+  .navbar__brand {
+    font-size: 1rem;
+  }
+
+  /* Mobile chat improvements */
+  .chat-container {
+    width: calc(100vw - 24px);
+    height: 350px;
+    bottom: 12px;
+    right: 12px;
+  }
+
+  .chat-messages {
+    padding: var(--spacing-3);
+  }
+
+  .chat-input-form {
+    padding: var(--spacing-3);
+  }
+
+  .chat-input-form textarea {
+    font-size: 0.9rem;
+    padding: var(--spacing-2);
+  }
+
+  .send-button {
+    padding: var(--spacing-2) var(--spacing-3);
+    font-size: 0.9rem;
+  }
+
+  /* Mobile typography */
+  .hero-title {
+    font-size: 1.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.9rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  /* Mobile table adjustments */
+  table {
+    font-size: 0.8rem;
+  }
+
+  th, td {
+    padding: var(--spacing-2);
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media (min-width: 600px) and (max-width: 768px) {
+  .container {
+    padding: 0 var(--spacing-4);
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .buttons {
+    flex-direction: row;
+    justify-content: center;
+    gap: var(--spacing-4);
+  }
+
+  .col--3 {
+    width: 50% !important;
+    margin-left: 0 !important;
+    margin-bottom: var(--spacing-4);
+  }
+
+  /* Adjust chat for small tablets */
+  .chat-container {
+    width: calc(100vw - 40px);
+    height: 400px;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 996px) {
+  .col--3 {
+    width: 50% !important;
+    margin-left: 0 !important;
+    margin-bottom: var(--spacing-4);
+  }
+
+  .col--8 {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+
+  .chat-container {
+    width: 350px;
+    height: 450px;
+  }
+}
+
+/* Touch-friendly adjustments for mobile */
+@media (hover: none) and (pointer: coarse) {
+  /* Increase tap targets on touch devices */
+  .button {
+    min-height: 44px;
+    min-width: 44px;
+    padding: var(--spacing-3) var(--spacing-4);
+  }
+
+  .menu__link {
+    min-height: 44px;
+    padding: var(--spacing-3) var(--spacing-4);
+  }
+
+  .navbar__item {
+    min-height: 44px;
+  }
+
+  /* Larger chat message bubbles on touch devices */
+  .message {
+    padding: var(--spacing-3) var(--spacing-4);
+    font-size: 1rem;
+  }
+
+  .message-user, .message-assistant {
+    max-width: 80%;
+  }
+
+  /* Larger input fields for touch */
+  textarea, input {
+    min-height: 44px;
+    padding: var(--spacing-3);
+    font-size: 1rem;
+  }
+
+  /* Larger clickable areas */
+  .chat-input-form textarea {
+    min-height: 80px;
+  }
+
+  .send-button {
+    min-height: 44px;
+    padding: var(--spacing-3) var(--spacing-4);
+  }
 }
 
 /* Premium search styling */
