@@ -1,7 +1,7 @@
 """
 BookContent model for the AI-Native Book RAG Chatbot application.
 """
-from sqlalchemy import Column, String, Text, Integer, Boolean, JSON
+from sqlalchemy import Column, String, Text, Integer, Boolean, JSON, ForeignKey
 from sqlalchemy.orm import relationship
 from .base import Base
 
@@ -14,7 +14,7 @@ class BookContent(Base):
 
     id = Column(String(36), primary_key=True, index=True)  # UUID as string
     title = Column(String(255), nullable=False)
-    module_id = Column(String(50), nullable=False, index=True)  # e.g., "module-1-ros2"
+    module_id = Column(String(50), ForeignKey("modules.id"), nullable=False, index=True)  # e.g., "module-1-ros2"
     section_path = Column(String(200), nullable=False, index=True)  # e.g., "module-1-ros2/basics/nodes"
     content_type = Column(String(20), nullable=False)  # Enum: text, code, diagram, exercise, lab
     content_body = Column(Text, nullable=False)
