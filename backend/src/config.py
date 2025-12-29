@@ -14,13 +14,21 @@ class Settings(BaseSettings):
     qdrant_url: Optional[str] = Field(default="https://your-qdrant-cluster.qdrant.tech", alias="QDRANT_URL")
     qdrant_api_key: Optional[str] = Field(default="your-qdrant-api-key", alias="QDRANT_API_KEY")
 
-    # OpenAI settings
-    openai_api_key: str = Field(alias="OPENAI_API_KEY")  # Required field
+    # OpenAI settings (kept for backward compatibility)
+    openai_api_key: Optional[str] = Field(default=None, alias="OPENAI_API_KEY")  # Optional field
     openai_model: str = Field(default="gpt-4-turbo", alias="OPENAI_MODEL")
     openai_embedding_model: str = Field(default="text-embedding-ada-002", alias="OPENAI_EMBEDDING_MODEL")  # Model for embeddings
     openai_base_url: Optional[str] = Field(default=None, alias="OPENAI_BASE_URL")  # Optional, for custom endpoints
     openai_timeout: int = Field(default=30, alias="OPENAI_TIMEOUT")  # Request timeout in seconds
     openai_max_retries: int = Field(default=3, alias="OPENAI_MAX_RETRIES")  # Number of retries for failed requests
+
+    # Google AI settings
+    google_api_key: str = Field(alias="GOOGLE_API_KEY")  # Required field
+    google_model: str = Field(default="gemini-pro", alias="GOOGLE_MODEL")
+    google_temperature: float = Field(default=0.7, alias="GOOGLE_TEMPERATURE")  # 0.0-1.0
+    google_max_output_tokens: int = Field(default=1000, alias="GOOGLE_MAX_OUTPUT_TOKENS")
+    google_top_p: float = Field(default=0.9, alias="GOOGLE_TOP_P")  # 0.0-1.0
+    google_top_k: int = Field(default=40, alias="GOOGLE_TOP_K")  # 1-40
 
     # Application settings
     debug: bool = Field(default=False, alias="DEBUG")  # Default to False in production

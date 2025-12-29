@@ -1,6 +1,6 @@
 """
 AI module for the AI-Native Book RAG Chatbot application.
 """
-from .openai_client import OpenAIClient
+from .google_client import GoogleAIClient
 
-__all__ = ["OpenAIClient"]
+__all__ = ["GoogleAIClient"]

@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from src.database.database import get_db
 from src.services.chat_service import ChatService
 from src.vector_store.qdrant_client import QdrantClientWrapper
-from src.ai.openai_client import get_openai_client
+from src.ai.google_client import get_google_client
 from src.utils.logging_config import get_logger
 
 
@@ -24,11 +24,11 @@ def get_chat_service():
     """Dependency to get the ChatService instance."""
     db = next(get_db())
     qdrant_client = QdrantClientWrapper()
-    openai_client = get_openai_client()
+    google_client = get_google_client()
     service = ChatService(
         db_session=db,
         qdrant_client=qdrant_client,
-        openai_client=openai_client
+        google_client=google_client
     )
     try:
         yield service

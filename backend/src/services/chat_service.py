@@ -15,7 +15,7 @@ from src.models.user_query import UserQuery
 from src.models.chatbot_response import ChatbotResponse
 from src.models.book_content import BookContent
 from src.vector_store.qdrant_client import QdrantClientWrapper
-from src.ai.openai_client import OpenAIClient
+from src.ai.google_client import GoogleAIClient
 from src.utils.exceptions import ValidationError, DatabaseError, RAGError
 from src.utils.logging_config import get_logger
 
@@ -33,18 +33,18 @@ class ChatService:
     - Storing and retrieving chat history
     """
 
-    def __init__(self, db_session: Session, qdrant_client: QdrantClientWrapper, openai_client: OpenAIClient):
+    def __init__(self, db_session: Session, qdrant_client: QdrantClientWrapper, google_client: GoogleAIClient):
         """
         Initialize the ChatService with required dependencies.
 
         Args:
             db_session: SQLAlchemy database session
             qdrant_client: Qdrant client wrapper for vector search
-            openai_client: OpenAI client for AI completions
+            google_client: Google AI client for AI completions
         """
         self.db_session = db_session
         self.qdrant_client = qdrant_client
-        self.openai_client = openai_client
+        self.google_client = google_client
 
     def create_conversation(self, user_id: Optional[str] = None, title: Optional[str] = None) -> Conversation:
         """
@@ -185,7 +185,7 @@ class ChatService:
             context_chunks = filtered_chunks[:context_window]
 
             # Generate AI response using the context
-            ai_response_text = self.openai_client.generate_completion_with_context(
+            ai_response_text = self.google_client.generate_completion_with_context(
                 query=query_text,
                 context_chunks=context_chunks
             )

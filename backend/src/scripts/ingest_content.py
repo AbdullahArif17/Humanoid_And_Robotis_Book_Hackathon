@@ -18,7 +18,7 @@ from src.models.book_content import BookContent, ALLOWED_CONTENT_TYPES
 from src.models.module import Module
 from src.services.book_content_service import BookContentService
 from src.vector_store.qdrant_client import QdrantClientWrapper
-from src.ai.openai_client import get_openai_client
+from src.ai.google_client import get_google_client
 from src.utils.logging_config import get_logger
 from src.utils.exceptions import ValidationError
 
@@ -41,7 +41,7 @@ class ContentIngestor:
         self.db_session = db_session
         self.book_content_service = BookContentService(db_session=db_session)
         self.qdrant_client = QdrantClientWrapper()  # Will use settings by default
-        self.openai_client = get_openai_client()
+        self.google_client = get_google_client()
 
     def extract_frontmatter(self, content: str) -> tuple:
         """
@@ -203,14 +203,12 @@ class ContentIngestor:
             )
 
             # Create embedding and store in vector database
-            embedding = self.openai_client.generate_embeddings([content_info['content_body']])[0]
+            embedding = self.google_client.generate_embeddings([content_info['content_body']])[0]
 
             self.qdrant_client.store_embedding(
                 content_id=content.id,
-                title=content_info['title'],
-                section_path=content_info['section_path'],
-                content_body=content_info['content_body'],
                 embedding=embedding,
+                content_text=content_info['content_body'],
                 metadata=content_info['content_metadata']
             )
 

@@ -30,7 +30,7 @@ def test_imports():
         "src.models.user_query",
         "src.models.chatbot_response",
         "src.database.database",
-        "src.ai.openai_client",
+        "src.ai.google_client",
         "src.vector_store.qdrant_client",
     ]
 

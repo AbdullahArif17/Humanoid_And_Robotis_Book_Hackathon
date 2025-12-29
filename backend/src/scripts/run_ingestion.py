@@ -12,7 +12,7 @@ from sqlalchemy.orm import Session
 from src.database.database import get_db
 from src.services.book_content_service import BookContentService
 from src.vector_store.qdrant_client import QdrantClientWrapper
-from src.ai.openai_client import OpenAIClient
+from src.ai.google_client import GoogleAIClient
 from src.utils.logging_config import get_logger
 from src.utils.exceptions import ValidationError
 
@@ -35,7 +35,7 @@ class AsyncContentIngestor:
         self.db_session = db_session
         self.book_content_service = BookContentService(db_session=db_session)
         self.qdrant_client = QdrantClientWrapper()  # Will use settings by default
-        self.openai_client = OpenAIClient()  # Create a new instance for the script
+        self.google_client = GoogleAIClient()  # Create a new instance for the script
 
     def extract_frontmatter(self, content: str) -> tuple:
         """
@@ -190,15 +190,13 @@ class AsyncContentIngestor:
             )
 
             # Create embedding and store in vector database
-            embeddings = await self.openai_client.generate_embeddings([content_info['content_body']])
+            embeddings = await self.google_client.generate_embeddings([content_info['content_body']])
             embedding = embeddings[0]
 
             self.qdrant_client.store_embedding(
                 content_id=content.id,
-                title=content_info['title'],
-                section_path=content_info['section_path'],
-                content_body=content_info['content_body'],
                 embedding=embedding,
+                content_text=content_info['content_body'],
                 metadata=content_info['content_metadata']
             )
 

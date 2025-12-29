@@ -47,7 +47,7 @@ class QdrantClientWrapper:
             self.client.create_collection(
                 collection_name=self.collection_name,
                 vectors_config=models.VectorParams(
-                    size=1536,  # Standard OpenAI embedding size
+                    size=768,  # Compatible with BERT-like embeddings and Google fallback
                     distance=models.Distance.COSINE
                 )
             )
