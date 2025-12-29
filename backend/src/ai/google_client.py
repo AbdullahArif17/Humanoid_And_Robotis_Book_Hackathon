@@ -34,25 +34,37 @@ class GoogleAIClient:
     def __init__(self):
         """Initialize the Google AI client with configuration."""
         if not GOOGLE_AI_AVAILABLE:
-            raise ImportError("Google GenAI SDK is not installed. Please install with: pip install google-genai")
+            raise ImportError("Google Generative AI SDK is not installed. Please install with: pip install google-generativeai")
 
         self.settings = get_settings()
-        genai.configure(api_key=self.settings.google_api_key)
 
-        self.model = self.settings.google_model
-        self.generation_config = GenerationConfig(
-            temperature=self.settings.google_temperature,
-            max_output_tokens=self.settings.google_max_output_tokens,
-            top_p=self.settings.google_top_p,
-            top_k=self.settings.google_top_k,
-        )
+        # Check if Google API key is configured
+        if not self.settings.google_api_key or self.settings.google_api_key == "your-google-api-key-here":
+            logger.warning("Google API key not configured. Google AI features will not work until API key is set.")
+            self.client = None
+            return
 
-        # Initialize the generative model
-        self.client = genai.GenerativeModel(
-            model_name=self.model,
-            generation_config=self.generation_config,
-            system_instruction=self._get_system_instruction()
-        )
+        try:
+            genai.configure(api_key=self.settings.google_api_key)
+
+            self.model = self.settings.google_model
+            self.generation_config = GenerationConfig(
+                temperature=self.settings.google_temperature,
+                max_output_tokens=self.settings.google_max_output_tokens,
+                top_p=self.settings.google_top_p,
+                top_k=self.settings.google_top_k,
+            )
+
+            # Initialize the generative model
+            self.client = genai.GenerativeModel(
+                model_name=self.model,
+                generation_config=self.generation_config,
+                system_instruction=self._get_system_instruction()
+            )
+        except Exception as e:
+            logger.error(f"Failed to initialize Google AI client: {str(e)}")
+            logger.warning("Google AI client not available. Some features may not work.")
+            self.client = None
 
     async def generate_embeddings(self, texts: List[str]) -> List[List[float]]:
         """
@@ -106,6 +118,10 @@ class GoogleAIClient:
         Returns:
             Generated completion text
         """
+        if self.client is None:
+            logger.error("Google AI client not initialized. Cannot generate completion.")
+            return "AI service is not available. Please check that the API key is properly configured."
+
         try:
             # For Google AI, we'll use the non-chat model for completion since
             # chat models expect a conversation flow
@@ -163,6 +179,21 @@ class GoogleAIClient:
         Returns:
             Generated completion object with response text and sources
         """
+        if self.client is None:
+            logger.error("Google AI client not initialized. Cannot generate completion with context.")
+
+            # Return a mock response object when client is not available
+            class ResponseObj:
+                def __init__(self, text, sources):
+                    self.response_text = text
+                    self.sources = sources
+
+            # Return a default response indicating the service is unavailable
+            return ResponseObj(
+                response_text="AI service is not available. Please check that the API key is properly configured.",
+                sources=[]
+            )
+
         # Format context chunks into a readable format
         context_text = "\n\n".join([
             f"Source: {chunk.get('title', 'Unknown')} ({chunk.get('section_path', 'Unknown')})\n"
@@ -209,6 +240,10 @@ class GoogleAIClient:
         Returns:
             True if the API key is valid, False otherwise
         """
+        if self.client is None:
+            logger.warning("Google AI client not initialized. Cannot validate API key.")
+            return False
+
         try:
             # Make a simple request to validate the API key
             # Since the Google client is synchronous, we run it in a thread pool
@@ -234,5 +269,14 @@ def get_google_client() -> GoogleAIClient:
     """
     global _google_client
     if _google_client is None:
-        _google_client = GoogleAIClient()
+        try:
+            _google_client = GoogleAIClient()
+        except ImportError as e:
+            logger.error(f"Failed to initialize Google AI client: {str(e)}")
+            # Create a client instance even if initialization fails to avoid breaking the service
+            _google_client = GoogleAIClient.__new__(GoogleAIClient)  # Create empty instance
+            _google_client.settings = None
+            _google_client.client = None
+            _google_client.model = "fallback-model"
+            _google_client.generation_config = None
     return _google_client
