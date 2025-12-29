@@ -122,7 +122,7 @@ class ChatService:
             logger.error(f"Error retrieving conversations for user {user_id}: {str(e)}")
             raise DatabaseError(f"Error retrieving conversations: {str(e)}")
 
-    def process_query(
+    async def process_query(
         self,
         conversation_id: str,
         query_text: str,
@@ -185,7 +185,7 @@ class ChatService:
             context_chunks = filtered_chunks[:context_window]
 
             # Generate AI response using the context
-            ai_response_text = self.google_client.generate_completion_with_context(
+            ai_response_text = await self.google_client.generate_completion_with_context(
                 query=query_text,
                 context_chunks=context_chunks
             )

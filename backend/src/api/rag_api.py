@@ -81,7 +81,7 @@ async def query_content(
         # to create a temporary conversation and process the query
         conversation = service.create_conversation(title="Temporary Query")
 
-        response = service.process_query(
+        response = await service.process_query(
             conversation_id=conversation.id,
             query_text=query
         )
@@ -116,7 +116,7 @@ async def query_selected_content(
         # Create temporary conversation for selected text query
         conversation = service.create_conversation(title="Selected Text Query")
 
-        response = service.process_query(
+        response = await service.process_query(
             conversation_id=conversation.id,
             query_text=query,
             selected_text=selected_text
@@ -363,7 +363,7 @@ async def process_query_endpoint(
         AI response with sources
     """
     try:
-        response = service.process_query(
+        response = await service.process_query(
             conversation_id=conversation_id,
             query_text=request.query_text,
             selected_text=request.selected_text,

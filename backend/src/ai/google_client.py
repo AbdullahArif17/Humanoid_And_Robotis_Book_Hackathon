@@ -34,7 +34,7 @@ class GoogleAIClient:
     def __init__(self):
         """Initialize the Google AI client with configuration."""
         if not GOOGLE_AI_AVAILABLE:
-            raise ImportError("Google AI SDK is not installed. Please install with: pip install google-generativeai")
+            raise ImportError("Google GenAI SDK is not installed. Please install with: pip install google-genai")
 
         self.settings = get_settings()
         genai.configure(api_key=self.settings.google_api_key)
@@ -129,10 +129,15 @@ class GoogleAIClient:
                     top_k=self.settings.google_top_k,
                 )
 
-            # Use the model to generate content
-            response = self.client.generate_content(
-                last_user_message,
-                generation_config=generation_config
+            # Google AI's generate_content is synchronous, so we run it in a thread pool
+            import asyncio
+            loop = asyncio.get_event_loop()
+            response = await loop.run_in_executor(
+                None,
+                lambda: self.client.generate_content(
+                    last_user_message,
+                    generation_config=generation_config
+                )
             )
 
             return response.text
@@ -146,7 +151,7 @@ class GoogleAIClient:
         query: str,
         context_chunks: List[Dict[str, Any]],
         system_prompt: Optional[str] = None
-    ) -> str:
+    ):
         """
         Generate a completion using the query and retrieved context chunks.
 
@@ -156,7 +161,7 @@ class GoogleAIClient:
             system_prompt: Optional custom system prompt
 
         Returns:
-            Generated completion with proper citations
+            Generated completion object with response text and sources
         """
         # Format context chunks into a readable format
         context_text = "\n\n".join([
@@ -174,7 +179,25 @@ class GoogleAIClient:
             import asyncio
             loop = asyncio.get_event_loop()
             response = await loop.run_in_executor(None, self.client.generate_content, full_prompt)
-            return response.text
+
+            # For now, return a simple response object with text and empty sources
+            # In a full implementation, you'd want to extract sources from the response
+            class ResponseObj:
+                def __init__(self, text, sources):
+                    self.response_text = text
+                    self.sources = sources
+
+            # Extract sources from context_chunks to return as source information
+            sources = [
+                {
+                    'title': chunk.get('title', 'Unknown'),
+                    'section_path': chunk.get('section_path', 'Unknown'),
+                    'confidence': chunk.get('score', 0.0)
+                }
+                for chunk in context_chunks
+            ]
+
+            return ResponseObj(response_text=response.text, sources=sources)
         except Exception as e:
             logger.error(f"Error generating completion with context: {str(e)}")
             raise
