@@ -146,6 +146,7 @@ async def health_check():
 
 
 @router.post("/v1/chat/conversations")
+@router.post("/v1/chat/conversations/")  # Explicitly support trailing slash
 async def create_conversation_endpoint(
     request: CreateConversationRequest,
     service: ChatService = Depends(get_chat_service)
@@ -176,6 +177,7 @@ async def create_conversation_endpoint(
 
 
 @router.get("/v1/chat/conversations/{conversation_id}")
+@router.get("/v1/chat/conversations/{conversation_id}/")  # Support trailing slash
 async def get_conversation_endpoint(
     conversation_id: str,
     service: ChatService = Depends(get_chat_service)
@@ -211,6 +213,7 @@ async def get_conversation_endpoint(
 
 
 @router.get("/v1/chat/conversations")
+@router.get("/v1/chat/conversations/")  # Support trailing slash
 async def get_conversations_endpoint(
     user_id: Optional[str] = None,
     skip: int = 0,
@@ -257,6 +260,7 @@ async def get_conversations_endpoint(
 
 
 @router.get("/v1/chat/conversations/{conversation_id}/history")
+@router.get("/v1/chat/conversations/{conversation_id}/history/")  # Support trailing slash
 async def get_conversation_history_endpoint(
     conversation_id: str,
     limit: int = 50,
@@ -286,6 +290,7 @@ async def get_conversation_history_endpoint(
 
 
 @router.put("/v1/chat/conversations/{conversation_id}/title")
+@router.put("/v1/chat/conversations/{conversation_id}/title/")  # Support trailing slash
 async def update_conversation_title_endpoint(
     conversation_id: str,
     title: str,
@@ -314,6 +319,7 @@ async def update_conversation_title_endpoint(
 
 
 @router.delete("/v1/chat/conversations/{conversation_id}")
+@router.delete("/v1/chat/conversations/{conversation_id}/")  # Support trailing slash
 async def delete_conversation_endpoint(
     conversation_id: str,
     service: ChatService = Depends(get_chat_service)
@@ -346,6 +352,7 @@ class ProcessQueryRequest(BaseModel):
 
 
 @router.post("/v1/chat/conversations/{conversation_id}/query")
+@router.post("/v1/chat/conversations/{conversation_id}/query/")  # Support trailing slash
 async def process_query_endpoint(
     conversation_id: str,
     request: ProcessQueryRequest,

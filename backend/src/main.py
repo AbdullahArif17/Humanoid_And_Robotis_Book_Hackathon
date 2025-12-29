@@ -68,7 +68,10 @@ app = FastAPI(
     title="AI-Native Book RAG Chatbot API",
     description="API for the AI-Native Book RAG Chatbot on Physical AI & Humanoid Robotics",
     version="1.0.0",
-    lifespan=lifespan
+    lifespan=lifespan,
+    redirect_slashes=True,  # Keep redirects but handle them properly
+    redoc_url="/redoc",
+    docs_url="/docs"
 )
 
 # Add CORS middleware
