@@ -24,7 +24,7 @@ class BookContent(Base):
 
     # Relationships
     embeddings = relationship("Embedding", back_populates="book_content")
-    module = relationship("Module", back_populates="book_contents")
+    module = relationship("Module", back_populates="book_contents", foreign_keys=[module_id])
 
 
 # Validation for content_type would be implemented in the service layer
