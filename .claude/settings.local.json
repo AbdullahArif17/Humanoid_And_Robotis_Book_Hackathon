@@ -82,7 +82,8 @@
       "Bash(python -c \"\n# Test importing the app.py file which is the Hugging Face entry point\ntry:\n    import app\n    print\\(''Hugging Face app.py imported successfully''\\)\n    print\\(''App object type:'', type\\(app.app\\)\\)\n    print\\(''App title:'', app.app.title if hasattr\\(app.app, ''title''\\) else ''No title''\\)\nexcept Exception as e:\n    print\\(f''Error importing app.py: {e}''\\)\n    import traceback\n    traceback.print_exc\\(\\)\n\")",
       "Bash(python -c \"\nwith open\\(''src/config.py'', ''r'', encoding=''utf-8''\\) as f:\n    lines = f.readlines\\(\\)\n    print\\(repr\\(lines[31]\\)\\)  # Line 32 is index 31\n\")",
       "Bash(find D:giaicHumanoid_And_Robotis_Book_Hackathonbackend -name \"*.py\" -exec grep -l \"class.*Module\\\\|class.*BookContent\" {} ;)",
-      "Bash(find \"D:\\\\giaic\\\\Humanoid_And_Robotis_Book_Hackathon\\\\backend\" -name \"*.py\" -exec grep -l \"class.*Module\\\\|class.*BookContent\" {} ;)"
+      "Bash(find \"D:\\\\giaic\\\\Humanoid_And_Robotis_Book_Hackathon\\\\backend\" -name \"*.py\" -exec grep -l \"class.*Module\\\\|class.*BookContent\" {} ;)",
+      "Bash(python -m src.scripts.initialize_database)"
     ]
   }
 }
