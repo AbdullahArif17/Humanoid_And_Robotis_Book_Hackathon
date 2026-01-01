@@ -83,7 +83,8 @@
       "Bash(python -c \"\nwith open\\(''src/config.py'', ''r'', encoding=''utf-8''\\) as f:\n    lines = f.readlines\\(\\)\n    print\\(repr\\(lines[31]\\)\\)  # Line 32 is index 31\n\")",
       "Bash(find D:giaicHumanoid_And_Robotis_Book_Hackathonbackend -name \"*.py\" -exec grep -l \"class.*Module\\\\|class.*BookContent\" {} ;)",
       "Bash(find \"D:\\\\giaic\\\\Humanoid_And_Robotis_Book_Hackathon\\\\backend\" -name \"*.py\" -exec grep -l \"class.*Module\\\\|class.*BookContent\" {} ;)",
-      "Bash(python -m src.scripts.initialize_database)"
+      "Bash(python -m src.scripts.initialize_database)",
+      "Bash(python initialize_db.py)"
     ]
   }
 }
