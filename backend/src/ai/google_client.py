@@ -221,8 +221,8 @@ class GoogleAIClient:
 
             # Return a default response indicating the service is unavailable
             return ResponseObj(
-                response_text="AI service is not available. Please check that the API key is properly configured.",
-                sources=[]
+                "AI service is not available. Please check that the API key is properly configured.",
+                []
             )
 
         # Format context chunks into a readable format
@@ -259,7 +259,7 @@ class GoogleAIClient:
                 for chunk in context_chunks
             ]
 
-            return ResponseObj(response_text=response.text, sources=sources)
+            return ResponseObj(response.text, sources)
         except Exception as e:
             logger.error(f"Error generating completion with context: {str(e)}")
             raise
