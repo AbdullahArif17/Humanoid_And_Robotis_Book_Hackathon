@@ -119,20 +119,6 @@ html[data-theme='dark'] .chat-error {
   border-left-color: #f87171;
 }
 
-.selected-text-preview {
-  background: var(--primary-100);
-  border-left: 3px solid var(--primary-500);
-  padding: 0.75rem;
-  margin: 0.5rem;
-  border-radius: 0 6px 6px 0;
-  font-size: 0.875rem;
-  color: var(--neutral-800);
-}
-
-html[data-theme='dark'] .selected-text-preview {
-  background: #1e3a8a;
-  color: var(--neutral-200);
-}
 
 .chat-messages {
   flex: 1;
@@ -565,6 +551,8 @@ html[data-theme='dark'] .chat-trigger-button {
     right: 12px;
     width: 44px;
     height: 44px;
+    min-width: 44px;
+    min-height: 44px;
     border-radius: 22px;
   }
 
@@ -587,11 +575,15 @@ html[data-theme='dark'] .chat-trigger-button {
   .chat-actions button {
     padding: 0.15rem 0.3rem;
     font-size: 0.65rem;
+    min-width: 32px;
+    min-height: 32px;
   }
 
   .close-chat-btn {
     width: 20px;
     height: 20px;
+    min-width: 20px;
+    min-height: 20px;
     font-size: 0.8rem;
   }
 
@@ -654,11 +646,14 @@ html[data-theme='dark'] .chat-trigger-button {
     font-size: 0.8rem;
     padding: 0.5rem;
     min-height: 70px;
+    min-width: 0; /* Allow textarea to shrink on small screens */
   }
 
   .send-button {
     padding: 0.5rem 0.8rem;
     font-size: 0.85rem;
+    min-width: 70px;
+    min-height: 36px;
   }
 
   .chat-welcome {
@@ -674,11 +669,6 @@ html[data-theme='dark'] .chat-trigger-button {
     font-size: 0.75rem;
   }
 
-  .selected-text-preview {
-    padding: 0.5rem;
-    margin: 0.4rem;
-    font-size: 0.75rem;
-  }
 
   .chat-error {
     padding: 0.5rem;
@@ -743,5 +733,29 @@ html[data-theme='dark'] .chat-trigger-button {
   .message-content {
     font-size: 0.9rem;
     line-height: 1.5;
+  }
+
+  /* Additional mobile optimizations */
+  .chat-trigger-button {
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    min-height: 56px;
+  }
+
+  .chat-header {
+    padding: 0.75rem;
+  }
+
+  .chat-messages {
+    padding: 0.75rem;
+  }
+
+  .sources {
+    font-size: 0.8rem;
+  }
+
+  .sources li {
+    font-size: 0.8rem;
   }
 }

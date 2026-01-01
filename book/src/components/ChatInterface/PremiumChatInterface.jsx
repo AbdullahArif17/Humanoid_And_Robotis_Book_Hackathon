@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSelection } from '../../contexts/SelectionContext';
 import apiClient from '../../utils/api';
 import './PremiumChatInterface.css';
 
@@ -17,7 +16,6 @@ const PremiumChatInterface = ({
   const [conversationId, setConversationId] = useState(null);
   const [error, setError] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  const { selectedText, clearSelection } = useSelection();
 
   const messagesEndRef = useRef(null);
   const textareaRef = useRef(null);
@@ -60,8 +58,7 @@ const PremiumChatInterface = ({
       id: Date.now(),
       text: inputText,
       sender: 'user',
-      timestamp: new Date().toISOString(),
-      selectedText: selectedText || null
+      timestamp: new Date().toISOString()
     };
 
     setMessages(prev => [...prev, userMessage]);
@@ -70,11 +67,10 @@ const PremiumChatInterface = ({
     setError(null);
 
     try {
-      // Call backend API to process query
+      // Call backend API to process query (without selected text)
       const data = await apiClient.processQuery(
         currentConversationId,
-        inputText,
-        selectedText || null
+        inputText
       );
 
       // Add AI response to messages
@@ -103,7 +99,6 @@ const PremiumChatInterface = ({
       setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
-      clearSelection(); // Clear selected text after sending
     }
   };
 
@@ -187,18 +182,11 @@ const PremiumChatInterface = ({
         </div>
       )}
 
-      {selectedText && (
-        <div className="selected-text-preview">
-          <strong>Selected text:</strong> "{selectedText.substring(0, 100)}{selectedText.length > 100 ? '...' : ''}"
-        </div>
-      )}
-
       <div className="chat-messages">
         {messages.length === 0 ? (
           <div className="chat-welcome">
             <h4>Hello! I'm your AI assistant for Humanoid Robotics.</h4>
             <p>Ask me questions about ROS 2, Gazebo/Unity simulation, NVIDIA Isaac, or Vision-Language-Action systems.</p>
-            <p>Select text on the page to ask context-specific questions!</p>
           </div>
         ) : (
           messages.map((message) => (
