@@ -9,7 +9,9 @@ CREATE TABLE IF NOT EXISTS modules (
     order_index INTEGER NOT NULL,
     estimated_duration_hours INTEGER,
     prerequisites VARCHAR,
-    learning_objectives VARCHAR
+    learning_objectives VARCHAR,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create conversations table
@@ -34,7 +36,9 @@ CREATE TABLE IF NOT EXISTS book_content (
     content_body TEXT NOT NULL,
     content_metadata JSON,
     version INTEGER DEFAULT 1,
-    chunk_boundary BOOLEAN DEFAULT FALSE
+    chunk_boundary BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create user_queries table
@@ -48,7 +52,9 @@ CREATE TABLE IF NOT EXISTS user_queries (
     selected_text TEXT,
     query_context JSON,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    processed_at TIMESTAMP
+    processed_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create chatbot_responses table
@@ -60,7 +66,9 @@ CREATE TABLE IF NOT EXISTS chatbot_responses (
     confidence_score FLOAT,
     tokens_used INTEGER,
     model_used VARCHAR(100),
-    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create embeddings table
@@ -69,7 +77,9 @@ CREATE TABLE IF NOT EXISTS embeddings (
     content_id VARCHAR(36) REFERENCES book_content(id),
     chunk_text TEXT NOT NULL,
     chunk_metadata JSON,
-    content_version INTEGER
+    content_version INTEGER,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create api_keys table
@@ -80,7 +90,9 @@ CREATE TABLE IF NOT EXISTS api_keys (
     user_id VARCHAR(36),
     is_active BOOLEAN DEFAULT TRUE,
     rate_limit_requests INTEGER DEFAULT 1000,
-    expires_at TIMESTAMP
+    expires_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create indexes for better performance
