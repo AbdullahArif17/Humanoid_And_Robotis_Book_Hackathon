@@ -198,7 +198,7 @@ class GoogleAIClient:
         query: str,
         context_chunks: List[Dict[str, Any]],
         system_prompt: Optional[str] = None
-    ):
+    ) -> str:
         """
         Generate a completion using the query and retrieved context chunks.
 
@@ -208,22 +208,12 @@ class GoogleAIClient:
             system_prompt: Optional custom system prompt
 
         Returns:
-            Generated completion object with response text and sources
+            Generated completion text
         """
         if self.client is None:
             logger.error("Google AI client not initialized. Cannot generate completion with context.")
-
-            # Return a mock response object when client is not available
-            class ResponseObj:
-                def __init__(self, text, sources):
-                    self.response_text = text
-                    self.sources = sources
-
             # Return a default response indicating the service is unavailable
-            return ResponseObj(
-                "AI service is not available. Please check that the API key is properly configured.",
-                []
-            )
+            return "AI service is not available. Please check that the API key is properly configured."
 
         # Format context chunks into a readable format
         context_text = "\n\n".join([
@@ -242,24 +232,7 @@ class GoogleAIClient:
             loop = asyncio.get_event_loop()
             response = await loop.run_in_executor(None, self.client.generate_content, full_prompt)
 
-            # For now, return a simple response object with text and empty sources
-            # In a full implementation, you'd want to extract sources from the response
-            class ResponseObj:
-                def __init__(self, text, sources):
-                    self.response_text = text
-                    self.sources = sources
-
-            # Extract sources from context_chunks to return as source information
-            sources = [
-                {
-                    'title': chunk.get('title', 'Unknown'),
-                    'section_path': chunk.get('section_path', 'Unknown'),
-                    'confidence': chunk.get('score', 0.0)
-                }
-                for chunk in context_chunks
-            ]
-
-            return ResponseObj(response.text, sources)
+            return response.text
         except Exception as e:
             logger.error(f"Error generating completion with context: {str(e)}")
             raise
