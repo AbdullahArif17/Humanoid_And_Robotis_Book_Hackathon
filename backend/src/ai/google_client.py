@@ -48,11 +48,13 @@ class GoogleAIClient:
             genai.configure(api_key=self.settings.google_api_key)
 
             # Try to use the configured model, fall back to alternatives if not available
+            # Google AI API expects model names with "models/" prefix
             available_models = [
-                self.settings.google_model,  # User-configured model
-                "gemini-1.5-pro",            # Current recommended model
-                "gemini-1.0-pro",            # Alternative model
-                "gemini-pro",                # Legacy model name
+                self.settings.google_model,           # User-configured model
+                "models/gemini-1.5-pro-latest",      # Current recommended model
+                "models/gemini-1.5-flash",           # Faster alternative
+                "models/gemini-pro",                 # Standard model
+                "models/gemini-1.0-pro",             # Legacy model
             ]
 
             self.client = None

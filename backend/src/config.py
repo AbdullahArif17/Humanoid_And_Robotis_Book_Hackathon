@@ -24,7 +24,7 @@ class Settings(BaseSettings):
 
     # Google AI settings
     google_api_key: str = Field(alias="GOOGLE_API_KEY")  # Required field
-    google_model: str = Field(default="gemini-1.5-pro", alias="GOOGLE_MODEL")
+    google_model: str = Field(default="models/gemini-1.5-pro-latest", alias="GOOGLE_MODEL")
     google_temperature: float = Field(default=0.7, alias="GOOGLE_TEMPERATURE")  # 0.0-1.0
     google_max_output_tokens: int = Field(default=1000, alias="GOOGLE_MAX_OUTPUT_TOKENS")
     google_top_p: float = Field(default=0.9, alias="GOOGLE_TOP_P")  # 0.0-1.0
