@@ -176,10 +176,32 @@ class ChatService:
 
             # Filter chunks to ensure they're relevant
             filtered_chunks = []
+            query_lower = query_text.lower()
             for chunk in relevant_chunks:
-                # Simple relevance check - could be enhanced with more sophisticated filtering
-                if len(chunk.get('content_body', '')) > 10:  # At least 10 characters
+                content_body = chunk.get('content_body', '')
+                title = chunk.get('title', '')
+
+                # Enhanced relevance check
+                # Check content length
+                if len(content_body) < 10:
+                    continue
+
+                # Check if query terms appear in content (basic relevance)
+                content_lower = content_body.lower()
+                title_lower = title.lower()
+
+                # Count how many query words appear in the content
+                query_words = query_lower.split()
+                matching_words = sum(1 for word in query_words if word in content_lower or word in title_lower)
+
+                # Only include chunks that have at least some relevance to the query
+                if len(query_words) == 0 or matching_words > 0 or len(content_body) > 50:
+                    # Add relevance score for better sorting later
+                    chunk['relevance_score'] = matching_words / len(query_words) if len(query_words) > 0 else 0
                     filtered_chunks.append(chunk)
+
+            # Sort by relevance score (descending) to prioritize more relevant chunks
+            filtered_chunks.sort(key=lambda x: x.get('relevance_score', 0), reverse=True)
 
             # Limit to the exact context window
             context_chunks = filtered_chunks[:context_window]
