@@ -47,20 +47,49 @@ class GoogleAIClient:
         try:
             genai.configure(api_key=self.settings.google_api_key)
 
-            self.model = self.settings.google_model
-            self.generation_config = GenerationConfig(
-                temperature=self.settings.google_temperature,
-                max_output_tokens=self.settings.google_max_output_tokens,
-                top_p=self.settings.google_top_p,
-                top_k=self.settings.google_top_k,
-            )
+            # Try to use the configured model, fall back to alternatives if not available
+            available_models = [
+                self.settings.google_model,  # User-configured model
+                "gemini-1.5-pro",            # Current recommended model
+                "gemini-1.0-pro",            # Alternative model
+                "gemini-pro",                # Legacy model name
+            ]
 
-            # Initialize the generative model
-            self.client = genai.GenerativeModel(
-                model_name=self.model,
-                generation_config=self.generation_config,
-                system_instruction=self._get_system_instruction()
-            )
+            self.client = None
+            successful_model = None
+
+            for model_name in available_models:
+                try:
+                    self.model = model_name
+                    self.generation_config = GenerationConfig(
+                        temperature=self.settings.google_temperature,
+                        max_output_tokens=self.settings.google_max_output_tokens,
+                        top_p=self.settings.google_top_p,
+                        top_k=self.settings.google_top_k,
+                    )
+
+                    # Initialize the generative model
+                    self.client = genai.GenerativeModel(
+                        model_name=self.model,
+                        generation_config=self.generation_config,
+                        system_instruction=self._get_system_instruction()
+                    )
+
+                    # If we get here, the model initialization was successful
+                    successful_model = model_name
+                    logger.info(f"Successfully initialized Google AI client with model: {self.model}")
+                    break
+                except Exception as model_error:
+                    logger.warning(f"Failed to initialize model {model_name}: {str(model_error)}")
+                    self.client = None
+                    continue
+
+            if self.client is None:
+                logger.error("Failed to initialize any Google AI model")
+                raise Exception("No available Google AI model could be initialized")
+            else:
+                self.model = successful_model  # Ensure the model is set to the successful one
+
         except Exception as e:
             logger.error(f"Failed to initialize Google AI client: {str(e)}")
             logger.warning("Google AI client not available. Some features may not work.")
