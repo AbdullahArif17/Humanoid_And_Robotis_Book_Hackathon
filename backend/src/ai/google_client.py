@@ -51,10 +51,10 @@ class GoogleAIClient:
             # Google AI API expects model names with "models/" prefix
             available_models = [
                 self.settings.google_model,           # User-configured model
-                "models/gemini-1.5-pro-latest",      # Current recommended model
-                "models/gemini-1.5-flash",           # Faster alternative
-                "models/gemini-pro",                 # Standard model
-                "models/gemini-1.0-pro",             # Legacy model
+                "models/gemini-2.5-flash",           # Current recommended model
+                "models/gemini-3-flash",             # Alternative model
+                "models/gemini-2.5-flash-tts",       # Alternative model
+                "models/gemini-robotics-er-1.5-preview", # Specialized model
             ]
 
             self.client = None
