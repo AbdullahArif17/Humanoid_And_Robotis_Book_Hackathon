@@ -185,8 +185,8 @@ const PremiumChatInterface = ({
       <div className="chat-messages">
         {messages.length === 0 ? (
           <div className="chat-welcome">
-            <h4>Hello! I'm your AI assistant for Humanoid Robotics.</h4>
-            <p>Ask me questions about ROS 2, Gazebo/Unity simulation, NVIDIA Isaac, or Vision-Language-Action systems.</p>
+            <h4>👋 Hello! I'm your friendly AI assistant for Humanoid Robotics!</h4>
+            <p>Feel free to ask me anything about ROS 2, Gazebo/Unity simulation, NVIDIA Isaac, or Vision-Language-Action systems. I'm here to help you learn and explore the exciting world of Physical AI & Humanoid Robotics! 🤖</p>
           </div>
         ) : (
           messages.map((message) => (
@@ -259,7 +259,7 @@ const PremiumChatInterface = ({
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Ask a question about humanoid robotics..."
+          placeholder="Ask me anything about humanoid robotics, AI, or robotics concepts! I'm here to help! 🤖"
           rows="3"
           disabled={isLoading}
         />

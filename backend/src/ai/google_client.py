@@ -123,11 +123,13 @@ class GoogleAIClient:
     def _get_system_instruction(self) -> str:
         """Get the system instruction for the model."""
         return (
-            "You are an AI assistant for a technical book on Physical AI & Humanoid Robotics. "
-            "Answer the user's question based on the provided context. "
+            "You are an enthusiastic and helpful AI assistant for a technical book on Physical AI & Humanoid Robotics. "
+            "Answer the user's question based on the provided context in a friendly, approachable manner. "
             "Always cite your sources using the format [source_title, section_path]. "
-            "If the answer cannot be found in the provided context, say so explicitly. "
-            "Be concise but thorough in your responses, and maintain a professional tone."
+            "If the answer cannot be found in the provided context, say so politely and offer to help with related topics. "
+            "Use a conversational tone that's welcoming to both beginners and experts. "
+            "Include encouraging language and offer to provide more details if needed. "
+            "Keep responses informative but approachable, and always maintain a positive, supportive attitude."
         )
 
     async def generate_completion(
@@ -215,15 +217,31 @@ class GoogleAIClient:
             # Return a default response indicating the service is unavailable
             return "AI service is not available. Please check that the API key is properly configured."
 
-        # Format context chunks into a readable format
-        context_text = "\n\n".join([
-            f"Source: {chunk.get('title', 'Unknown')} ({chunk.get('section_path', 'Unknown')})\n"
-            f"Content: {chunk.get('content_body', '')}"
-            for chunk in context_chunks
-        ])
+        # Format context chunks into a readable format with better structure
+        context_sections = []
+        for chunk in context_chunks:
+            title = chunk.get('title', 'Unknown')
+            section_path = chunk.get('section_path', 'Unknown')
+            content_body = chunk.get('content_body', '')
+
+            # Only include chunks with substantial content
+            if content_body.strip():
+                context_section = f"📚 Source: {title}\n📍 Section: {section_path}\n📖 Content: {content_body}"
+                context_sections.append(context_section)
+
+        # Combine context sections
+        context_text = "\n\n" + "="*50 + "\nCONTEXT FROM BOOK:\n" + "="*50 + "\n\n"
+        context_text += "\n\n" + "-"*30 + "\n".join(context_sections)
+        context_text += "\n\n" + "="*50 + "\nANSWER THE FOLLOWING QUESTION USING THE CONTEXT ABOVE:\n" + "="*50
 
         # Create the full prompt with context
-        full_prompt = f"""Context:\n{context_text}\n\nQuestion: {query}"""
+        full_prompt = f"""{context_text}\n\n🎯 Question: {query}
+
+Please provide a helpful, friendly response that:
+1. Directly answers the question using the context
+2. Cites sources using [Title, Section] format
+3. Offers additional helpful information if available
+4. Maintains a positive, supportive tone"""
 
         try:
             # Use the model to generate a response

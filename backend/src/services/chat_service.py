@@ -177,27 +177,51 @@ class ChatService:
             # Filter chunks to ensure they're relevant
             filtered_chunks = []
             query_lower = query_text.lower()
+
+            # Split query into words and phrases for better matching
+            query_words = query_lower.split()
+            query_phrases = []  # Extract common phrases
+
+            # Create common phrases from query (2-3 word combinations)
+            for i in range(len(query_words)):
+                for j in range(i + 2, min(i + 4, len(query_words) + 1)):
+                    query_phrases.append(' '.join(query_words[i:j]))
+
             for chunk in relevant_chunks:
                 content_body = chunk.get('content_body', '')
                 title = chunk.get('title', '')
+                section_path = chunk.get('section_path', '')
 
                 # Enhanced relevance check
                 # Check content length
                 if len(content_body) < 10:
                     continue
 
-                # Check if query terms appear in content (basic relevance)
+                # Check if query terms appear in content (enhanced relevance)
                 content_lower = content_body.lower()
                 title_lower = title.lower()
+                section_lower = section_path.lower()
 
-                # Count how many query words appear in the content
-                query_words = query_lower.split()
-                matching_words = sum(1 for word in query_words if word in content_lower or word in title_lower)
+                # Count exact word matches
+                word_matches = sum(1 for word in query_words if word in content_lower or word in title_lower or word in section_lower)
 
-                # Only include chunks that have at least some relevance to the query
-                if len(query_words) == 0 or matching_words > 0 or len(content_body) > 50:
+                # Count phrase matches (more weight for phrases)
+                phrase_matches = sum(1 for phrase in query_phrases if phrase in content_lower or phrase in title_lower or phrase in section_lower)
+
+                # Calculate relevance score with different weights
+                # Words: 1 point each, Phrases: 2 points each
+                relevance_score = (word_matches * 1.0) + (phrase_matches * 2.0)
+
+                # Additional factors: title match gets bonus, section path match gets bonus
+                title_bonus = 1.0 if any(word in title_lower for word in query_words) else 0
+                section_bonus = 0.5 if any(word in section_lower for word in query_words) else 0
+
+                total_relevance = relevance_score + title_bonus + section_bonus
+
+                # Only include chunks that have some relevance to the query
+                if total_relevance > 0 or len(content_body) > 100:  # Include longer content even if low relevance
                     # Add relevance score for better sorting later
-                    chunk['relevance_score'] = matching_words / len(query_words) if len(query_words) > 0 else 0
+                    chunk['relevance_score'] = total_relevance
                     filtered_chunks.append(chunk)
 
             # Sort by relevance score (descending) to prioritize more relevant chunks
@@ -220,7 +244,8 @@ class ChatService:
                 sources=[{
                     'title': chunk.get('title'),
                     'section_path': chunk.get('section_path'),
-                    'confidence': chunk.get('score', 0.0)
+                    'confidence': chunk.get('score', 0.0),
+                    'relevance_score': chunk.get('relevance_score', 0.0)
                 } for chunk in context_chunks],
                 timestamp=datetime.utcnow()
             )
