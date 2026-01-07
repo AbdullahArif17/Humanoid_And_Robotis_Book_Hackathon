@@ -51,6 +51,45 @@ class Settings(BaseSettings):
 settings = Settings()
 
 
+def validate_settings():
+    """
+    Validate settings at startup.
+    
+    Raises:
+        ValueError: If required settings are missing or invalid
+    """
+    errors = []
+    
+    # Validate required settings
+    if not settings.google_api_key or settings.google_api_key == "":
+        errors.append("GOOGLE_API_KEY is required")
+    
+    if not settings.database_url or settings.database_url.startswith("postgresql://user:password"):
+        errors.append("DATABASE_URL must be configured with a valid PostgreSQL connection string")
+    
+    if not settings.qdrant_url or settings.qdrant_url.startswith("https://your-qdrant-cluster"):
+        errors.append("QDRANT_URL must be configured with a valid Qdrant URL")
+    
+    # Validate numeric ranges
+    if settings.google_temperature < 0.0 or settings.google_temperature > 1.0:
+        errors.append("GOOGLE_TEMPERATURE must be between 0.0 and 1.0")
+    
+    if settings.google_top_p < 0.0 or settings.google_top_p > 1.0:
+        errors.append("GOOGLE_TOP_P must be between 0.0 and 1.0")
+    
+    if settings.google_top_k < 1 or settings.google_top_k > 40:
+        errors.append("GOOGLE_TOP_K must be between 1 and 40")
+    
+    if settings.openai_timeout < 1:
+        errors.append("OPENAI_TIMEOUT must be at least 1 second")
+    
+    if settings.openai_max_retries < 0:
+        errors.append("OPENAI_MAX_RETRIES must be non-negative")
+    
+    if errors:
+        raise ValueError(f"Configuration validation failed:\n" + "\n".join(f"  - {error}" for error in errors))
+
+
 def get_settings():
     """Get the application settings instance."""
     return settings

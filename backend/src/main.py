@@ -6,14 +6,17 @@ import logging
 import sys
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 from src.config import settings
 from src.utils.logging_config import setup_logging
 from src.api import rag_api
 from src.database.database import engine, Base
 from src.utils.logging_config import get_logger
+from src.utils.middleware import RequestLoggingMiddleware, SecurityHeadersMiddleware
+from src.utils.exceptions import BaseAppException
 
 # Import all models to ensure they're registered with SQLAlchemy Base
 from src.models.book_content import BookContent
@@ -37,6 +40,16 @@ async def lifespan(app: FastAPI):
     Handles startup and shutdown events.
     """
     logger.info("Starting up AI-Native Book RAG Chatbot application")
+
+    # Validate configuration
+    try:
+        from src.config import validate_settings
+        validate_settings()
+        logger.info("Configuration validation passed")
+    except ValueError as e:
+        logger.error(f"Configuration validation failed: {str(e)}")
+        logger.error("Please check your environment variables and configuration")
+        raise
 
     # Create database tables
     try:
@@ -74,7 +87,14 @@ app = FastAPI(
     docs_url="/docs"
 )
 
-# Add CORS middleware
+# Add middleware in order (last added = first executed)
+# Security headers middleware
+app.add_middleware(SecurityHeadersMiddleware)
+
+# Request logging middleware
+app.add_middleware(RequestLoggingMiddleware)
+
+# CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.allowed_origins.split(","),
@@ -119,11 +139,35 @@ async def health_check():
     }
 
 
-# Global exception handler
-@app.exception_handler(Exception)
-async def global_exception_handler(request, exc):
+# Exception handler for custom application exceptions
+@app.exception_handler(BaseAppException)
+async def app_exception_handler(request: Request, exc: BaseAppException):
     """
-    Global exception handler for the application.
+    Handler for custom application exceptions.
+
+    Args:
+        request: Request object
+        exc: BaseAppException instance
+
+    Returns:
+        Error response with appropriate status code
+    """
+    logger.error(f"Application exception: {str(exc)}", exc_info=True)
+    return JSONResponse(
+        status_code=exc.status_code or 500,
+        content={
+            "detail": exc.message,
+            "error_type": exc.__class__.__name__,
+            "status_code": exc.status_code or 500
+        }
+    )
+
+
+# Global exception handler for unhandled exceptions
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    """
+    Global exception handler for unhandled exceptions.
 
     Args:
         request: Request object
@@ -133,7 +177,14 @@ async def global_exception_handler(request, exc):
         Error response
     """
     logger.error(f"Unhandled exception: {str(exc)}", exc_info=True)
-    return {"detail": "Internal server error", "status_code": 500}
+    return JSONResponse(
+        status_code=500,
+        content={
+            "detail": "Internal server error",
+            "status_code": 500,
+            "error_type": "InternalServerError"
+        }
+    )
 
 
 if __name__ == "__main__":
