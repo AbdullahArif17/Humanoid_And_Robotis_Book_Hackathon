@@ -1,18 +1,61 @@
 /**
- * Premium CSS for Homepage - follows design system
+ * Premium CSS for Homepage - Enhanced Design System
  */
 
 .heroBanner {
-  padding: 4rem 0;
+  padding: 6rem 0;
   text-align: center;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, var(--neutral-50) 0%, var(--neutral-100) 100%);
+  min-height: 450px;
+  display: flex;
+  align-items: center;
+}
+
+.heroTitle {
+  font-size: 3rem;
+  font-weight: 800;
+  color: white;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+  margin-bottom: 1rem;
+  line-height: 1.1;
+}
+
+.heroSubtitle {
+  font-size: 1.35rem;
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: 2rem;
+  font-weight: 400;
+  line-height: 1.6;
 }
 
 @media screen and (max-width: 996px) {
   .heroBanner {
-    padding: 2rem 1rem;
+    padding: 4rem 1rem;
+    min-height: 380px;
+  }
+
+  .heroTitle {
+    font-size: 2.25rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1.1rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .heroBanner {
+    padding: 3rem 1rem;
+    min-height: 320px;
+  }
+
+  .heroTitle {
+    font-size: 1.75rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1rem;
   }
 }
 
@@ -24,7 +67,7 @@
   flex-wrap: wrap;
 }
 
-/* Premium feature card styling */
+/* Premium styling preserved from original */
 .feature-card {
   background: white;
   border: 1px solid var(--neutral-200);
@@ -91,11 +134,11 @@ html[data-theme='dark'] .hero-subtitle {
 
 /* Premium button styling */
 .button--lg {
-  padding: 0.75rem 1.5rem;
+  padding: 0.875rem 1.75rem;
   font-size: 1rem;
-  font-weight: 500;
-  border-radius: 8px;
-  transition: all 0.2s ease;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: all 0.3s ease;
 }
 
 .button--primary {
@@ -107,20 +150,21 @@ html[data-theme='dark'] .hero-subtitle {
 .button--primary:hover {
   background-color: var(--primary-600);
   border-color: var(--primary-600);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
 }
 
 .button--secondary {
   background-color: transparent;
-  border: 1px solid var(--neutral-300);
+  border: 2px solid var(--neutral-300);
   color: var(--primary-500);
 }
 
 .button--secondary:hover {
   background-color: var(--neutral-100);
-  border-color: var(--neutral-400);
+  border-color: var(--primary-400);
   color: var(--primary-600);
+  transform: translateY(-2px);
 }
 
 html[data-theme='dark'] .button--secondary {
@@ -136,11 +180,11 @@ html[data-theme='dark'] .button--secondary:hover {
 
 /* Premium section styling */
 .padding-top--xl {
-  padding-top: 4rem;
+  padding-top: 5rem;
 }
 
 .padding-bottom--xl {
-  padding-bottom: 4rem;
+  padding-bottom: 5rem;
 }
 
 .padding-top--lg {
@@ -159,6 +203,10 @@ html[data-theme='dark'] .button--secondary:hover {
   margin-bottom: 2rem;
 }
 
+.margin-bottom--xl {
+  margin-bottom: 3rem;
+}
+
 .margin-left--md {
   margin-left: 1rem;
 }
@@ -169,8 +217,8 @@ html[data-theme='dark'] .button--secondary:hover {
 
 /* Premium typography */
 h2 {
-  font-size: 2rem;
-  font-weight: 600;
+  font-size: 2.25rem;
+  font-weight: 700;
   color: var(--neutral-900);
   text-align: center;
   margin-bottom: 1rem;
@@ -192,8 +240,8 @@ html[data-theme='dark'] h2 {
 
   .padding-top--xl,
   .padding-bottom--xl {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
   }
 
   .col--8 {
@@ -214,6 +262,10 @@ html[data-theme='dark'] h2 {
     width: 100%;
     max-width: 300px;
   }
+
+  h2 {
+    font-size: 1.75rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -228,5 +280,11 @@ html[data-theme='dark'] h2 {
 
   .feature-card {
     margin-bottom: 1rem;
+  }
+
+  .padding-top--xl,
+  .padding-bottom--xl {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
   }
 }

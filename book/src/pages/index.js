@@ -3,22 +3,90 @@ import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
-import ChatInterface from '../components/ChatInterface';
+import EmbeddedChatInterface from '../components/ChatInterface/EmbeddedChatInterface';
 
 import styles from './index.module.css';
 
-function HomepageHeader() {
-  const {siteConfig} = useDocusaurusContext();
+// Feature data with icons
+const features = [
+  {
+    title: 'ROS 2 Fundamentals',
+    icon: '🤖',
+    description: 'Learn the foundation of robotic systems programming with ROS 2 for humanoid applications.',
+    link: '/docs/module-1-ros2/introduction',
+  },
+  {
+    title: 'Simulation & Control',
+    icon: '🎮',
+    description: 'Master Gazebo and Unity for humanoid robotics simulation and advanced control techniques.',
+    link: '/docs/module-2-simulation/introduction',
+  },
+  {
+    title: 'NVIDIA Isaac Platform',
+    icon: '🧠',
+    description: 'Advanced AI for humanoid robotics using NVIDIA Isaac platform and Isaac Sim.',
+    link: '/docs/module-3-nvidia-isaac/introduction',
+  },
+  {
+    title: 'Vision-Language-Action',
+    icon: '👁️',
+    description: 'VLA systems for advanced humanoid capabilities and perception.',
+    link: '/docs/module-4-vla/introduction',
+  },
+];
+
+// Stats data
+const stats = [
+  { number: '4', label: 'Core Modules' },
+  { number: '20+', label: 'Chapters' },
+  { number: '50+', label: 'Topics' },
+  { number: '∞', label: 'Possibilities' },
+];
+
+function FeatureCard({ title, icon, description, link }) {
   return (
-    <header className={clsx('hero hero--primary', styles.heroBanner)}>
-      <div className="container">
-        <h1 className="hero__title">{siteConfig.title}</h1>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
+    <div className="col col--3">
+      <div className="glass-card padding--lg" style={{ height: '100%', borderRadius: '16px' }}>
+        <div className="feature-icon">
+          <span>{icon}</span>
+        </div>
+        <h3 style={{ marginTop: 0 }}>{title}</h3>
+        <p style={{ color: 'var(--neutral-600)' }}>{description}</p>
+        <Link to={link} className="feature-link">
+          Explore →
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+function HomepageHeader() {
+  const { siteConfig } = useDocusaurusContext();
+  return (
+    <header className={clsx('hero', styles.heroBanner, 'hero-gradient-bg')}>
+      {/* Floating decorative elements */}
+      <div className="floating-element" style={{ top: '10%', left: '5%', fontSize: '4rem' }}>🤖</div>
+      <div className="floating-element" style={{ top: '20%', right: '10%', fontSize: '3rem' }}>⚙️</div>
+      <div className="floating-element" style={{ bottom: '15%', left: '15%', fontSize: '3.5rem' }}>🧠</div>
+      
+      <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+        <h1 className={clsx('hero__title', styles.heroTitle)}>
+          {siteConfig.title}
+        </h1>
+        <p className={clsx('hero__subtitle', styles.heroSubtitle)}>
+          {siteConfig.tagline}
+        </p>
         <div className={styles.buttons}>
           <Link
-            className="button button--secondary button--lg"
+            className="button button--lg button-glow"
+            style={{ 
+              background: 'white', 
+              color: 'var(--primary-600)',
+              fontWeight: 600,
+              border: 'none'
+            }}
             to="/docs/intro">
-            Read the Book
+            📚 Read the Book
           </Link>
         </div>
       </div>
@@ -27,7 +95,7 @@ function HomepageHeader() {
 }
 
 export default function Home() {
-  const {siteConfig} = useDocusaurusContext();
+  const { siteConfig } = useDocusaurusContext();
 
   return (
     <Layout
@@ -35,24 +103,43 @@ export default function Home() {
       description="Comprehensive guide to humanoid robotics combining AI with physical systems">
       <HomepageHeader />
       <main>
-        {/* Hero Section */}
+        {/* Stats Section */}
         <section className="padding-top--xl padding-bottom--lg">
+          <div className="container">
+            <div className="stats-section">
+              {stats.map((stat, idx) => (
+                <div key={idx} className="stat-item">
+                  <div className="stat-number">{stat.number}</div>
+                  <div className="stat-label">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Hero Content Section */}
+        <section className="padding-top--lg padding-bottom--lg fade-in-section">
           <div className="container">
             <div className="row">
               <div className="col col--8 col--offset-2">
                 <div className="text--center padding-horiz--md">
-                  <h1 className="hero-title">Physical AI & Humanoid Robotics</h1>
-                  <p className="hero-subtitle">From Digital Intelligence to Embodied Systems</p>
-                  <div className="hero-actions margin-top--lg">
+                  <h2 className="gradient-text" style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>
+                    Physical AI & Humanoid Robotics
+                  </h2>
+                  <div className="premium-divider"></div>
+                  <p className="hero-subtitle" style={{ maxWidth: '600px', margin: '0 auto' }}>
+                    From Digital Intelligence to Embodied Systems — Master the technologies shaping the future of robotics
+                  </p>
+                  <div className="hero-actions margin-top--lg" style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
                     <Link
-                      className="button button--primary button--lg"
+                      className="button button--primary button--lg button-glow"
                       to="/docs/intro">
-                      Start Learning
+                      🚀 Start Learning
                     </Link>
                     <Link
-                      className="button button--secondary button--lg margin-left--md"
+                      className="button button--secondary button--lg"
                       to="/docs/module-1-ros2/introduction">
-                      Explore Modules
+                      📖 Explore Modules
                     </Link>
                   </div>
                 </div>
@@ -62,76 +149,39 @@ export default function Home() {
         </section>
 
         {/* Features Grid */}
-        <section className="padding-top--lg padding-bottom--xl">
+        <section className="padding-top--xl padding-bottom--xl" style={{ background: 'var(--neutral-50)' }}>
           <div className="container">
-            <div className="text--center margin-bottom--lg">
-              <h2>Core Modules</h2>
+            <div className="text--center margin-bottom--xl">
+              <h2 style={{ marginBottom: '0.5rem' }}>Core Modules</h2>
+              <div className="premium-divider"></div>
               <p className="hero-subtitle">Comprehensive coverage of humanoid robotics fundamentals</p>
             </div>
 
-            <div className="row">
-              <div className="col col--3">
-                <div className="feature-card padding--md">
-                  <h3>ROS 2 Fundamentals</h3>
-                  <p>Learn the foundation of robotic systems programming with ROS 2 for humanoid applications.</p>
-                  <Link to="/docs/module-1-ros2/introduction" className="feature-link">
-                    Explore →
-                  </Link>
-                </div>
-              </div>
-
-              <div className="col col--3">
-                <div className="feature-card padding--md">
-                  <h3>Simulation & Control</h3>
-                  <p>Master Gazebo and Unity for humanoid robotics simulation and advanced control techniques.</p>
-                  <Link to="/docs/module-2-simulation/introduction" className="feature-link">
-                    Explore →
-                  </Link>
-                </div>
-              </div>
-
-              <div className="col col--3">
-                <div className="feature-card padding--md">
-                  <h3>NVIDIA Isaac Platform</h3>
-                  <p>Advanced AI for humanoid robotics using NVIDIA Isaac platform and Isaac Sim.</p>
-                  <Link to="/docs/module-3-nvidia-isaac/introduction" className="feature-link">
-                    Explore →
-                  </Link>
-                </div>
-              </div>
-
-              <div className="col col--3">
-                <div className="feature-card padding--md">
-                  <h3>Vision-Language-Action</h3>
-                  <p>Vision-Language-Action systems for advanced humanoid capabilities and perception.</p>
-                  <Link to="/docs/module-4-vla/introduction" className="feature-link">
-                    Explore →
-                  </Link>
-                </div>
-              </div>
+            <div className="row" style={{ gap: '1.5rem 0' }}>
+              {features.map((feature, idx) => (
+                <FeatureCard key={idx} {...feature} />
+              ))}
             </div>
           </div>
         </section>
 
         {/* AI Chatbot Section */}
-        <section className="padding-top--xl padding-bottom--xl" style={{ background: 'var(--neutral-50)' }}>
+        <section className="padding-top--xl padding-bottom--xl">
           <div className="container">
             <div className="row">
               <div className="col col--8 col--offset-2">
                 <div className="text--center margin-bottom--lg">
-                  <h2>AI-Powered Assistant</h2>
-                  <p>Ask questions about the book content using our AI-powered chatbot with Retrieval-Augmented Generation (RAG).</p>
+                  <h2 style={{ marginBottom: '0.5rem' }}>🤖 AI-Powered Assistant</h2>
+                  <div className="premium-divider"></div>
+                  <p>Ask questions about the book content using our AI chatbot with Retrieval-Augmented Generation (RAG).</p>
                 </div>
 
-                <div className="chat-container-wrapper" style={{
+                <div className="glass-card" style={{
                   height: '500px',
-                  background: 'white',
-                  border: '1px solid var(--neutral-200)',
-                  borderRadius: '12px',
+                  borderRadius: '16px',
                   overflow: 'hidden',
-                  boxShadow: '0 10px 25px rgba(0, 0, 0, 0.05)'
                 }}>
-                  <ChatInterface apiUrl="https://abdullah017-humanoid-and-robotis-book.hf.space" />
+                  <EmbeddedChatInterface apiUrl="https://abdullah017-humanoid-and-robotis-book.hf.space" />
                 </div>
               </div>
             </div>
@@ -142,14 +192,17 @@ export default function Home() {
         <section className="padding-top--xl padding-bottom--xl">
           <div className="container">
             <div className="row">
-              <div className="col col--8 col--offset-2">
-                <div className="text--center">
-                  <h2>Ready to Build Humanoid Robots?</h2>
-                  <p className="margin-bottom--lg">Start your journey in physical AI and humanoid robotics today.</p>
+              <div className="col col--10 col--offset-1">
+                <div className="cta-section text--center">
+                  <h2 style={{ marginBottom: '0.5rem' }}>Ready to Build Humanoid Robots?</h2>
+                  <div className="premium-divider"></div>
+                  <p className="margin-bottom--lg" style={{ maxWidth: '500px', margin: '0 auto 2rem' }}>
+                    Start your journey in physical AI and humanoid robotics today. Join thousands of learners exploring the future of robotics.
+                  </p>
                   <Link
-                    className="button button--primary button--lg"
+                    className="button button--primary button--lg button-glow"
                     to="/docs/intro">
-                    Begin Your Learning Path
+                    🎯 Begin Your Learning Path
                   </Link>
                 </div>
               </div>
