@@ -51,11 +51,13 @@
   }
 
   .heroTitle {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
+    /* Reduced from 1.75rem */
   }
 
   .heroSubtitle {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    /* Reduced from 1rem */
   }
 }
 
