@@ -97,6 +97,26 @@ function HomepageHeader() {
 export default function Home() {
   const { siteConfig } = useDocusaurusContext();
 
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const sections = document.querySelectorAll('.fade-in-section');
+    sections.forEach((section) => observer.observe(section));
+
+    return () => {
+      sections.forEach((section) => observer.unobserve(section));
+    };
+  }, []);
+
   return (
     <Layout
       title={`AI-Native Book: Physical AI & Humanoid Robotics`}
@@ -166,22 +186,26 @@ export default function Home() {
         </section>
 
         {/* AI Chatbot Section */}
-        <section className="padding-top--xl padding-bottom--xl">
+        <section className="padding-top--xl padding-bottom--xl fade-in-section">
           <div className="container">
             <div className="row">
-              <div className="col col--8 col--offset-2">
+              <div className="col col--10 col--offset-1">
                 <div className="text--center margin-bottom--lg">
-                  <h2 style={{ marginBottom: '0.5rem' }}>🤖 AI-Powered Assistant</h2>
+                  <h2 className="gradient-text" style={{ marginBottom: '0.5rem' }}>🤖 Intelligent Assistant</h2>
                   <div className="premium-divider"></div>
-                  <p>Ask questions about the book content using our AI chatbot with Retrieval-Augmented Generation (RAG).</p>
+                  <p className="hero-subtitle">Interactive RAG-powered chatbot trained on the complete book content</p>
                 </div>
 
-                <div className="glass-card" style={{
-                  height: '500px',
-                  borderRadius: '16px',
-                  overflow: 'hidden',
-                }}>
-                  <EmbeddedChatInterface apiUrl="https://abdullah017-humanoid-and-robotis-book.hf.space" />
+                <div className="ai-chat-premium-container">
+                  <div className="glass-card chat-wrapper" style={{
+                    height: '600px',
+                    borderRadius: '24px',
+                    overflow: 'hidden',
+                    border: '1px solid rgba(59, 130, 246, 0.2)',
+                    boxShadow: '0 20px 50px rgba(0, 0, 0, 0.1)',
+                  }}>
+                    <EmbeddedChatInterface apiUrl="https://abdullah017-humanoid-and-robotis-book.hf.space" />
+                  </div>
                 </div>
               </div>
             </div>
