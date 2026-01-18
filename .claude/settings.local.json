@@ -86,7 +86,11 @@
       "Bash(python -m src.scripts.initialize_database)",
       "Bash(python initialize_db.py)",
       "Bash(dir \"D:\\\\giaic\\\\Humanoid_And_Robotis_Book_Hackathon\")",
-      "Bash(findstr -i env)"
+      "Bash(findstr -i env)",
+      "Bash(dir \"D:\\\\giaic\\\\Humanoid_And_Robotis_Book_Hackathon\\\\book\\\\docs\")",
+      "Bash(dir \"D:\\\\giaic\\\\Humanoid_And_Robotis_Book_Hackathon\\\\book\\\\docs\\\\module-2-simulation\")",
+      "Bash(dir \"D:\\\\giaic\\\\Humanoid_And_Robotis_Book_Hackathon\\\\book\\\\docs\\\\module-2-gazebo-unity\")",
+      "Bash(dir \"D:\\\\giaic\\\\Humanoid_And_Robotis_Book_Hackathon\\\\book\\\\docs\\\\module-4-vla\")"
     ]
   }
 }
