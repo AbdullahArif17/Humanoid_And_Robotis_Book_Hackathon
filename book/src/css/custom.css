@@ -913,13 +913,11 @@ html[data-theme='dark'] .glass-card p {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  visibility: hidden;
 }
 
 .fade-in-section.is-visible {
   opacity: 1;
   transform: translateY(0);
-  visibility: visible;
 }
 
 /* Floating Decorative Elements */
@@ -1169,7 +1167,6 @@ html[data-theme='dark'] .cta-section {
 
   .fade-in-section {
     opacity: 1;
-    visibility: visible;
     transform: none;
   }
 }

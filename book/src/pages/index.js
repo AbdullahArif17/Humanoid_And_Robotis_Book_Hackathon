@@ -183,7 +183,7 @@ export default function Home() {
         </section>
 
         {/* Hero Content Section */}
-        <section className="padding-top--xl padding-bottom--xl fade-in-section">
+        <section className="padding-top--xl padding-bottom--xl">
           <div className="container">
             <div className={styles.heroContentRow}>
               <div>
