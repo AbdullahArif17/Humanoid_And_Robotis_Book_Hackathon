@@ -70,7 +70,7 @@ function FeatureCard({ title, icon, description, link }) {
 function RoadmapItem({ number, title, chapters, description, align }) {
   return (
     <div className={styles.roadmapItem}>
-      <div className={clsx(styles.roadmapContent, 'glass-card fade-in-section')}>
+      <div className={clsx(styles.roadmapContent, 'glass-card')}>
         <span className={styles.roadmapNumber}>{number}</span>
         <h3 className="gradient-text" style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>{title}</h3>
         <p style={{ fontWeight: 600, color: 'var(--primary-500)', marginBottom: '0.5rem' }}>{chapters}</p>
@@ -143,6 +143,9 @@ export default function Home() {
   const { siteConfig } = useDocusaurusContext();
 
   React.useEffect(() => {
+    // Force scroll to top on page load
+    window.scrollTo(0, 0);
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -272,7 +275,7 @@ export default function Home() {
         </section>
 
         {/* AI Chatbot Section */}
-        <section className="padding-top--xl padding-bottom--xl fade-in-section" id="ai-assistant">
+        <section className="padding-top--xl padding-bottom--xl" id="ai-assistant">
           <div className="container">
                 <div className="text--center margin-bottom--lg">
                   <h2 className="gradient-text" style={{ marginBottom: '0.5rem' }}>🤖 Intelligent Assistant</h2>
