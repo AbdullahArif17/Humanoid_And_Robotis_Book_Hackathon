@@ -52,20 +52,18 @@ const features = [
 
 function FeatureCard({ title, icon, description, link }) {
   return (
-    <div className="col col--3">
-      <Link to={link} style={{ textDecoration: 'none', color: 'inherit' }}>
-        <div className="glass-card padding--lg" style={{ height: '100%', borderRadius: '24px' }}>
-          <div className="feature-icon">
-            <span>{icon}</span>
-          </div>
-          <h3 style={{ marginTop: 0, fontSize: '1.25rem' }}>{title}</h3>
-          <p style={{ color: 'var(--neutral-600)', fontSize: '0.95rem' }}>{description}</p>
-          <div className="feature-link" style={{ fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            Learn More <span style={{ transition: 'transform 0.2s' }}>→</span>
-          </div>
+    <Link to={link} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
+      <div className="glass-card padding--lg" style={{ height: '100%', borderRadius: '24px' }}>
+        <div className="feature-icon">
+          <span>{icon}</span>
         </div>
-      </Link>
-    </div>
+        <h3 style={{ marginTop: 0, fontSize: '1.25rem' }}>{title}</h3>
+        <p style={{ color: 'var(--neutral-600)', fontSize: '0.95rem' }}>{description}</p>
+        <div className="feature-link" style={{ fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          Learn More <span style={{ transition: 'transform 0.2s' }}>→</span>
+        </div>
+      </div>
+    </Link>
   );
 }
 
@@ -75,8 +73,8 @@ function RoadmapItem({ number, title, chapters, description, align }) {
       <div className={clsx(styles.roadmapContent, 'glass-card fade-in-section')}>
         <span className={styles.roadmapNumber}>{number}</span>
         <h3 className="gradient-text" style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>{title}</h3>
-        <p style={{ fontWeight: 600, color: 'var(--primary-600)', marginBottom: '0.5rem' }}>{chapters}</p>
-        <p style={{ color: 'var(--neutral-600)', margin: 0 }}>{description}</p>
+        <p style={{ fontWeight: 600, color: 'var(--primary-500)', marginBottom: '0.5rem' }}>{chapters}</p>
+        <p style={{ margin: 0 }}>{description}</p>
       </div>
       <div className={styles.roadmapDot}></div>
       <div className={styles.roadmapContent} style={{ visibility: 'hidden' }}></div>
@@ -187,12 +185,12 @@ export default function Home() {
         {/* Hero Content Section */}
         <section className="padding-top--xl padding-bottom--xl fade-in-section">
           <div className="container">
-            <div className="row align-items--center">
-              <div className="col col--6">
+            <div className={styles.heroContentRow}>
+              <div>
                 <h2 className="gradient-text" style={{ textAlign: 'left', fontSize: '2.5rem', marginBottom: '1.5rem' }}>
                   The Future of Embodied Intelligence
                 </h2>
-                <p style={{ fontSize: '1.15rem', color: 'var(--neutral-600)', marginBottom: '2rem' }}>
+                <p style={{ fontSize: '1.15rem', marginBottom: '2rem' }}>
                   This book provides a comprehensive journey from the mathematical foundations of robotics to the cutting edge of physical AI. 
                   Learn how to build, simulate, and deploy humanoid robots using industry-standard tools and frameworks.
                 </p>
@@ -202,7 +200,7 @@ export default function Home() {
                   </Link>
                 </div>
               </div>
-              <div className="col col--6">
+              <div>
                 <div className="glass-card padding--xl text--center" style={{ borderRadius: '32px', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ fontSize: '10rem', opacity: 0.1, position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>🤖</div>
                   <div style={{ position: 'relative', zIndex: 1 }}>
@@ -218,7 +216,7 @@ export default function Home() {
         </section>
 
         {/* Roadmap Section */}
-        <section className="padding-top--xl padding-bottom--xl" style={{ background: 'var(--neutral-50)' }}>
+        <section className={clsx("padding-top--xl padding-bottom--xl", styles.roadmapSection)}>
           <div className="container">
             <div className="text--center margin-bottom--xl">
               <h2 style={{ fontSize: '2.5rem' }}>Learning Roadmap</h2>
@@ -265,7 +263,7 @@ export default function Home() {
               <p className="hero-subtitle">Comprehensive coverage of humanoid robotics fundamentals</p>
             </div>
 
-            <div className="row" style={{ gap: '1.5rem 0' }}>
+            <div className={styles.featureGrid}>
               {features.map((feature, idx) => (
                 <FeatureCard key={idx} {...feature} />
               ))}
@@ -276,8 +274,6 @@ export default function Home() {
         {/* AI Chatbot Section */}
         <section className="padding-top--xl padding-bottom--xl fade-in-section" id="ai-assistant">
           <div className="container">
-            <div className="row">
-              <div className="col col--10 col--offset-1">
                 <div className="text--center margin-bottom--lg">
                   <h2 className="gradient-text" style={{ marginBottom: '0.5rem' }}>🤖 Intelligent Assistant</h2>
                   <div className="premium-divider"></div>
@@ -286,7 +282,7 @@ export default function Home() {
 
                 <div className={styles.aiChatPremiumContainer}>
                   <div className={clsx("glass-card", styles.chatWrapper)} style={{
-                    height: '600px',
+                    height: 'min(600px, 70vh)',
                     borderRadius: '24px',
                     overflow: 'hidden',
                     border: '1px solid rgba(59, 130, 246, 0.2)',
@@ -295,8 +291,6 @@ export default function Home() {
                     <EmbeddedChatInterface apiUrl="https://abdullah017-humanoid-and-robotis-book.hf.space" />
                   </div>
                 </div>
-              </div>
-            </div>
           </div>
         </section>
 
@@ -311,7 +305,7 @@ export default function Home() {
               {technologies.map((tech, idx) => (
                 <div key={idx} className={styles.techItem}>
                   <span className={styles.techIcon}>{tech.icon}</span>
-                  <span style={{ fontWeight: 600, color: 'var(--neutral-600)' }}>{tech.name}</span>
+                  <span style={{ fontWeight: 600 }}>{tech.name}</span>
                 </div>
               ))}
             </div>
@@ -322,8 +316,8 @@ export default function Home() {
         <section className="padding-top--xl padding-bottom--xl">
           <div className="container">
             <div className={clsx(styles.ctaSection, "text--center")}>
-              <h2 style={{ color: 'white', fontSize: '3rem', marginBottom: '1.5rem' }}>The Future is Humanoid</h2>
-              <p className="margin-bottom--lg" style={{ color: 'rgba(255, 255, 255, 0.8)', maxWidth: '600px', margin: '0 auto 2.5rem', fontSize: '1.25rem' }}>
+              <h2 style={{ fontSize: '2.75rem', marginBottom: '1.5rem' }}>The Future is Humanoid</h2>
+              <p style={{ maxWidth: '600px', margin: '0 auto 2.5rem', fontSize: '1.15rem' }}>
                 Join the revolution in physical AI. Start your journey into the world of humanoid robotics today.
               </p>
               <Link
